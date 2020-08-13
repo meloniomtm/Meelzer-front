@@ -14,7 +14,7 @@ app.use("/user", userRouter);
 app.use("/music", musicRouter);
 app.use("/album", albumRouter);
 
-const server = app.listen(3000, () => {
+const server = app.listen(3006, () => {
     if (server) {
       const address = server.address() as AddressInfo;
       console.log(`Servidor rodando em http://localhost:${address.port}`);

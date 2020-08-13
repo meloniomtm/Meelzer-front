@@ -7,9 +7,9 @@ export class UserDatabase extends BaseDatabase {
 
   public async createUser(
     id: string,
-    email: string,
     name: string,
     nickname: string,
+    email: string,
     password: string,
     role: string
   ): Promise<void> {
@@ -17,33 +17,29 @@ export class UserDatabase extends BaseDatabase {
       await this.getConnection()
         .insert({
           id,
-          email,
           name,
           nickname,
+          email,
           password,
           role
         })
         .into(UserDatabase.TABLE_NAME);
     } catch (error) {
+      console.log("Error UserDatabase linha 28")
       throw new Error(error.sqlMessage || error.message);
     }
   }
 
-  /*public getUserByEmailNickname = async (EmailNickname: string): Promise<User> => {
-    const result = await this.getConnection().raw(`
-        SELECT * FROM ${UserDatabase.TABLE_NAME}  
-        WHERE nickname='${EmailNickname}' OR email='${EmailNickname}';
-    `)
-    return result[0];
-  }*/
-  public async getUserByEmailNickname(email: string): Promise<User> {
-    const result = await this.getConnection()
-      .select("*")
-      .from(UserDatabase.TABLE_NAME)
-      .where({ email });
+  public async getUserByEmailNickname (EmailNickname: string): Promise<User> {
+     const result = await this.getConnection()
+       .select("*")
+       .from(UserDatabase.TABLE_NAME)
+       .where({ email: EmailNickname })
+       .orWhere({nickname: EmailNickname});
 
-    return User.toUserModel(result[0]);
-  }
+     return User.toUserModel(result[0]);
+   }
+   
   public async getById(id: string): Promise<any> {
     const result = await this.getConnection()
       .select("*")

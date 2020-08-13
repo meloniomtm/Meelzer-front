@@ -8,9 +8,9 @@ export class UserController {
         try {
 
             const input: UserInputDTO = {
-                email: req.body.email,
                 name: req.body.name,
-                nickname: req.body.name,
+                nickname: req.body.nickname,
+                email: req.body.email,
                 password: req.body.password,
                 role: req.body.role
             }
@@ -33,12 +33,15 @@ export class UserController {
                 email_Nickname: req.body.email_Nickname,
                 password: req.body.password
             };
+            console.log("chegou linha 36")
             const userBusiness = new UserBusiness();
-            const token = await userBusiness.login(loginData);
 
+            const token = await userBusiness.getUserByEmailNickname(loginData);
+            console.log("chegou linha 40")
             res.status(200).send({ token });
 
         } catch (error) {
+            console.log("error UserController linha 44")
             res.status(400).send({ error: error.message });
         }
 
