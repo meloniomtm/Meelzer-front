@@ -3,3 +3,53 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.animation-gradient{
+  background-color: #000000f0;
+  animation: gradient 12s linear infinite alternate;
+}
+
+.beat-logo{
+  animation: beat 0.4s linear infinite;
+}
+.loading-logo{
+  animation: loaading 0.4s linear 3s ;
+}
+.loading-img{
+  animation: loading-img2 3s linear infinite;
+}
+
+@keyframes gradient {
+0%{background-color: #7fff638c}
+50%{background-color: #3094ff8f}
+100%{background-color: #ff3dcf7d}
+}
+@keyframes loading-img2 { 
+  100% {
+    transform: rotate(360deg);
+  } 
+}
+
+@keyframes loading { 
+  0%{
+    width: 25vw;
+    overflow: hidden;
+  }
+  50%{
+    transform: scale(1)
+  }
+  100% {
+    transform: scale(1.01); 
+  } 
+}
+@keyframes beat { 
+  0%{
+    transform: scale(1)
+  }
+  50%{
+    transform: scale(1)
+  }
+  100% {
+    transform: scale(1.01); 
+  } 
+}

@@ -56,10 +56,10 @@ export class Artist {
 }
 
 export interface ArtistInputDTO {
-    email: string;
-    password: string;
     name: string;
     nickname: string;
+    email: string;
+    password: string;
 }
 
 export interface LoginInputDTO {
