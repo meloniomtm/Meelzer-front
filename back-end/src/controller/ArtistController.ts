@@ -1,22 +1,21 @@
 import { Request, Response } from "express";
-import { UserInputDTO, LoginInputDTO} from "../model/User";
-import { UserBusiness } from "../business/UserBusiness";
+import { ArtistInputDTO, LoginInputDTO} from "../model/Artist";
+import { ArtistBusiness } from "../business/ArtistBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
 
-export class UserController {
+export class ArtistController {
     async signup(req: Request, res: Response) {
         try {
 
-            const input: UserInputDTO = {
+            const input: ArtistInputDTO = {
                 name: req.body.name,
                 nickname: req.body.nickname,
                 email: req.body.email,
                 password: req.body.password,
-                role: req.body.role
             }
 
-            const userBusiness = new UserBusiness();
-            const token = await userBusiness.createUser(input);
+            const artistBusiness = new ArtistBusiness();
+            const token = await artistBusiness.createArtist(input);
 
             res.status(200).send({ token });
 
@@ -33,8 +32,8 @@ export class UserController {
                 email_Nickname: req.body.email_Nickname,
                 password: req.body.password
             };
-            const userBusiness = new UserBusiness();
-            const token = await userBusiness.getUserByEmailNickname(loginData);
+            const artistBusiness = new ArtistBusiness();
+            const token = await artistBusiness.getArtistByEmailNickname(loginData);
             res.status(200).send({ token });
             
         } catch (error) {

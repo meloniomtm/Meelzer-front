@@ -4,9 +4,13 @@
   "description": "back-end system for a music platform",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev ./src/index.ts",
+    "start": "tsc && node ./build/local.js",
+    "start:dev": "ts-node-dev ./src/local.ts",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sls:start": "sls offline",
+    "sls:deploy": "sls deploy",
+    "deploy": "sls deploy"
   },
   "repository": {
     "type": "git",
@@ -35,13 +39,25 @@
     "@types/uuid": "^8.0.1",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.4",
     "mysql": "^2.18.1",
+    "serverless": "^1.74.1",
+    "serverless-http": "^2.5.0",
     "ts-node-dev": "^1.0.0-pre.56",
     "typescript": "^3.9.7",
     "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.7",
+    "serverless-dotenv-plugin": "^3.0.0",
+    "serverless-offline": "^6.5.0",
+    "serverless-webpack": "^5.3.3",
+    "ts-loader": "^8.0.2",
+    "webpack": "^4.44.1",
+    "webpack-node-externals": "^2.5.1"
   }
 }

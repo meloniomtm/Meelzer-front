@@ -1,17 +1,16 @@
 import { BaseDatabase } from "./BaseDatabase";
-import { User } from "../model/User";
+import { Artist } from "../model/Artist";
 
-export class UserDatabase extends BaseDatabase {
+export class ArtistDatabase extends BaseDatabase {
 
-  private static TABLE_NAME = "Meelzer_User";
+  private static TABLE_NAME = "Meelzer_Artist";
 
-  public async createUser(
+  public async createArtist(
     id: string,
     name: string,
     nickname: string,
     email: string,
     password: string,
-    role: string
   ): Promise<void> {
     try {
       await this.getConnection()
@@ -21,29 +20,28 @@ export class UserDatabase extends BaseDatabase {
           nickname,
           email,
           password,
-          role
         })
-        .into(UserDatabase.TABLE_NAME);
+        .into(ArtistDatabase.TABLE_NAME);
     } catch (error) {
-      console.log("Error UserDatabase linha 28")
+      console.log("Error ArtistDatabase linha 28")
       throw new Error(error.sqlMessage || error.message);
     }
   }
 
-  public async getUserByEmailNickname (EmailNickname: string): Promise<User> {
+  public async getArtistByEmailNickname (EmailNickname: string): Promise<Artist> {
      const result = await this.getConnection()
        .select("*")
-       .from(UserDatabase.TABLE_NAME)
+       .from(ArtistDatabase.TABLE_NAME)
        .where({ email: EmailNickname })
        .orWhere({nickname: EmailNickname});
 
-     return User.toUserModel(result[0]);
+     return Artist.toArtistModel(result[0]);
    }
    
   public async getById(id: string): Promise<any> {
     const result = await this.getConnection()
       .select("*")
-      .from(UserDatabase.TABLE_NAME)
+      .from(ArtistDatabase.TABLE_NAME)
       .where({ id });
     return result[0];
   }

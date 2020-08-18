@@ -58,8 +58,9 @@ export class User {
     }
 
     static stringToUserRole(input: string): UserRole {
+        console.log("model role: ", input)
         switch (input) {
-            case "ADMIN":
+            case "admin":
                 return UserRole.ADMIN;
             case "FREE":
                 return UserRole.FREE;
@@ -84,7 +85,7 @@ export interface UserInputDTO {
     password: string;
     name: string;
     nickname: string;
-    role: string;
+    role: UserRole;
 }
 
 export interface LoginInputDTO {
@@ -93,8 +94,8 @@ export interface LoginInputDTO {
 }
 
 export enum UserRole {
-    ADMIN = "admin",
-    FREE = "free",
-    PAYING = "paying",
-    BLOCK = "block"
+    ADMIN = "ADMIN",
+    FREE = "FREE",
+    PAYING = "PAYING",
+    BLOCK = "BLOCK"
 }
