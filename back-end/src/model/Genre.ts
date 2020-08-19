@@ -26,8 +26,5 @@ export class Genre {
 }
 
 export interface GenreInputDTO {
-    id_user: string,
-    name: string,
-    id_music: boolean,
-    status: string
+    name: string
 }

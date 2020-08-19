@@ -7,6 +7,7 @@ import { musicRouter } from "./routes/musicRouter";
 import { albumRouter } from "./routes/albumRouter";
 import { artistRouter } from "./routes/artistRouter";
 import { loginRouter } from "./routes/loginRouter";
+import { genreRouter } from "./routes/genreRouter";
 
 dotenv.config();
 export const app = express();
@@ -18,3 +19,4 @@ app.use("/artist", artistRouter);
 app.use("/music", musicRouter);
 app.use("/album", albumRouter);
 app.use("/login", loginRouter);
+app.use("/genre", genreRouter);

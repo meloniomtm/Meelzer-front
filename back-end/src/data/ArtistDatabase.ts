@@ -45,4 +45,12 @@ export class ArtistDatabase extends BaseDatabase {
       .where({ id });
     return result[0];
   }
+
+  public async getAllArtists(id: string): Promise<any> {
+    const result = await this.getConnection()
+      .select("*")
+      .from(ArtistDatabase.TABLE_NAME);
+    return result[0];
+  }
+
 }
