@@ -13,14 +13,10 @@ export class LoginController {
                 password: req.body.password
             };
             const loginBusiness = new LoginBusiness();
-            console.log("passou pelo LoginController", loginBusiness)
             const token = await loginBusiness.getUserByEmailNickname(loginData);
-            console.log(token)
             await BaseDatabase.destroyConnection();
             res.status(200).send({ token });
-            console.log("passou pelo LoginController")
         } catch (error) {
-            console.log("Error LoginController")
             await BaseDatabase.destroyConnection();
             res.status(400).send({ error: error.message });
         }
