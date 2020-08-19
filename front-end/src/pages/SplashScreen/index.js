@@ -11,7 +11,7 @@ const Container = styled.div`
     background-color: black;
     display:flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     text-align: left;
     max-height: 100vh;
@@ -30,22 +30,32 @@ const LogoContainer = styled.div`
     justify-content: flex-end;
     align-items: center;
     z-index: 1;
-    grid-row: 1/2;
-    margin-top: 13vw;
-margin-bottom: 11vw;
+    margin-top: 15vh;
+    margin-bottom: 11vw;
+    @media(min-width: 800px) {
+
+  }
 `
 
 const Logo = styled.img`
     width:60vw;
     z-index: 1;
+    max-width: 240px;
 `
 const PhraseContainer = styled.span`
 color:white;
 z-index:1;
 display:flex;
+position: relative;
+bottom: 0;
 width: 100%;
 justify-content: center;
-    margin-top: 55vw;
+align-items: center;
+
+@media(min-width: 800px) {
+    font-size: 1.5em;
+  }
+
 `
 const Phrase = styled.span`
 z-index:1;

@@ -5,6 +5,8 @@ import axios from 'axios';
 
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
+import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
+
 import Header from '../../components/Header'
 
 import '../../App.css'
@@ -70,8 +72,8 @@ const Home = () => {
                 <Welcome>{welcomePhrase}</Welcome>
             </MainContainer>
             {/* <BottomNavigationUser></BottomNavigationUser> */}
-            <BottomNavigationArtist></BottomNavigationArtist>
-
+            {/* <BottomNavigationArtist></BottomNavigationArtist> */}
+            <BottomNavigationAdmin></BottomNavigationAdmin>
         </Container>
     )
 }

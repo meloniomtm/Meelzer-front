@@ -6,7 +6,7 @@
 
 .animation-gradient{
   background-color: #000000f0;
-  animation: gradient 12s linear infinite alternate;
+  animation: gradient 8s linear infinite alternate;
 }
 
 .beat-logo{
