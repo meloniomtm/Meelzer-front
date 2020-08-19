@@ -61,8 +61,3 @@ export interface ArtistInputDTO {
     email: string;
     password: string;
 }
-
-export interface LoginInputDTO {
-    email_Nickname: string;
-    password: string;
-}

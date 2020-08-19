@@ -74,8 +74,7 @@ const LogoContainer = styled.div`
     z-index: 1;
     grid-row: 1/2;
 `
-const rotate = keyframes`
- `
+
 const Loading = styled.div`
     display: flex;
     flex-direction: column;
@@ -131,9 +130,11 @@ const SignUpButton = styled(Button)`
 }
 `
 
+
+
 const Login = () => {
     const classes = useStyles();
-    const urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev/"
+    const urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const history = useHistory();
     const { form, onChange } = useForm({ emailInput: '', InputPassword: '' })
     const token = localStorage.getItem('token')
@@ -142,76 +143,55 @@ const Login = () => {
         onChange(name, value);
     };
     const [loading, setLoading] = useState(false)
-    const [testando123, setTestando123] = useState('')
+
     const onClickLogin = event => {
-        testLoading()
+        startLoading()
         event.preventDefault();
-        const body = {
-            email_Nickname: form.emailInput,
-            password: form.InputPassword
-        }
-        axios
-            .post(
-                `${urlBack}user/login`,
-                body,
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            )
-            .then((response) => {
-                localStorage.setItem("token", response.data.token)
-                console.log(response.data)
-                history.push("/home")
-            })
-            .catch(() => {
-                axios
-                    .post(
-                        `${urlBack}artist/login`,
-                        body,
-                        {
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
+        try {
+            const body = {
+                email_Nickname: form.emailInput,
+                password: form.InputPassword
+            }
+            axios
+                .post(
+                    `${urlBack}/login`,
+                    body,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
                         }
-                    )
-                    .then((response) => {
-                        localStorage.setItem("token", response.data.token)
-                        console.log(response.data)
-                        history.push("/home")
-                    })
-                    .catch(() => {
+                    }
+                )
+                .then((response) => {
+                    localStorage.setItem("token", response.data.token)
+                    console.log(response.data)
+                    startLoading()
+                    history.push("/home")
+                })
+                .catch((error) => {
+                    console.log("error")
+                    startLoading()
+                })
+        } catch{
+            console.log("catch")
+            startLoading()
+        }
 
-                    })
-            })
     }
 
-    const testLoading = () => {
+    const startLoading = () => {
         setLoading(!loading)
-        alteraClass()
-}        
-    
-
-    const alteraClass = () =>{
-        if(!loading){
-        setTestando123('loading-img')
-        console.log(loading)
-    } else {
-        setTestando123('')
-        console.log(loading)
-
     }
-}
 
     const goToSignUp = () => {
         history.push("/signup")
     }
+
     return (
         <Container className='animation-gradient'>
             <Filter></Filter>
             <LogoContainer>
-                <Loading className={testando123} activeLoading={loading} >
+                <Loading activeLoading={loading} >
                     <Logo activeLoading={loading} src={Meelzer_linha}></Logo>
                 </Loading>
             </LogoContainer>

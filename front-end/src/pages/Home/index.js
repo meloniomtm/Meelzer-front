@@ -3,47 +3,30 @@ import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
+import BottomNavigationUser from '../../components/BottomNavigationUser'
+import BottomNavigationArtist from '../../components/BottomNavigationArtist'
+import Header from '../../components/Header'
+
 import '../../App.css'
 
-import SettingsIcon from '@material-ui/icons/Settings';
 
 const Container = styled.div`
 width: 100%;
 height: 100vh;
 display:grid;
-grid-template-rows: 10vh 20px 100px;
+grid-template-rows: 10fr 80fr 10fr;
 max-height: 100vh;
 background-color: #000000ad;
 color: white;
-`
-const ContainerHeader = styled.div`
-box-shadow: inset 0 0 20px 3px #00000012;
-background-color:#00000000;
-border-bottom: 1px solid #0000001e;
-display:grid;
-z-index: 1;
-grid-template-columns: repeat(3, 1fr);
-width:100%;
-height: 10vh;
-position: sticky;
-top: 0;
-padding:1vw;
-padding-left: 5vw;
-padding-right: 2vw;
-justify-items: start;
-align-items: center;
-font-size:  0;
-font-size: 1.2em;
-font-weight: bold;
-
+overflow: hidden;
 `
 
-const SettingIconContainer = styled.div`
-grid-column: 3/4;
-display:flex;
-justify-content: flex-end;
-width: 100%;
-padding-right: 2vw;
+
+
+
+const MainContainer = styled.div`
+grid-row: 2/3;
+background-color: #00000047;
 `
 
 const Welcome = styled.p`
@@ -82,12 +65,13 @@ const Home = () => {
 
     return (
         <Container>
-            <ContainerHeader>
-                <SettingIconContainer>
-                    <SettingsIcon />
-                </SettingIconContainer>
-            </ContainerHeader>
-            <Welcome>{welcomePhrase}</Welcome>
+            <Header></Header>
+            <MainContainer>
+                <Welcome>{welcomePhrase}</Welcome>
+            </MainContainer>
+            {/* <BottomNavigationUser></BottomNavigationUser> */}
+            <BottomNavigationArtist></BottomNavigationArtist>
+
         </Container>
     )
 }
