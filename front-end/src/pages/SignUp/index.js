@@ -77,7 +77,13 @@ display:grid;
 grid-template-rows: 1fr 1fr 1fr;
 max-height: 100vh;
 `
-
+const FormContainer = styled.div`
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
 const Form = styled.form`
     width: 100%;
     display:flex;
@@ -85,7 +91,10 @@ const Form = styled.form`
     justify-content: center;
     align-items: center;
     grid-row: 2/3;
-    margin-top: 4vw;
+    margin-top: 5vh;
+    @media(min-width: 800px) {
+    width:50%;
+  }
 `
 
 const SignUpButton = styled(Button)`
@@ -107,6 +116,13 @@ const LogoContainer = styled.div`
 const Logo = styled.img`
     width:60vw;
     z-index: 1;
+    margin-top: 2vh;
+    @media(min-width: 600px) {
+    width:30vw;
+  }
+  @media(min-width: 1024px) {
+    width:20vw;
+  }
 `
 const Filter = styled.div`
     width: 100%;
@@ -211,65 +227,67 @@ const SignUp = () => {
             <LogoContainer>
                 <Logo src={Meelzer_linha}></Logo>
             </LogoContainer>
-            <Form autocomplete="false" className={classes.root} noValidate>
-                <ThemeProvider theme={theme}>
-                    <TextField
-                        className={classes.margin}
-                        label="Nome completo"
-                        variant="filled"
-                        name="nameInput"
-                        value={form.nameInput}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        className={classes.margin}
-                        label="Nome de usuário"
-                        variant="filled"
-                        name="nicknameInput"
-                        value={form.nicknameInput}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        className={classes.margin}
-                        label="E-mail"
-                        variant="filled"
-                        name="emailInput"
-                        value={form.emailInput}
-                        onChange={handleInputChange}
-                        autocomplete="email"
-                    />
-                    <TextField
-                        className={classes.margin}
-                        label="senha"
-                        variant="filled"
-                        name="passwordInput"
-                        value={form.passwordInput}
-                        onChange={handleInputChange}
-                        type='password'
-                    />
-                    <SwitchContainer>
-                        <FormControlLabel
-                            className={classes.switchArtist}
-                            control={
-                                <YellowSwitch
-                                    checked={forArtist.status}
-                                    onChange={handleChange}
-                                    name="status"
-                                    color="secundary"
-                                />
-                            }
-                            label="Meelzer for Artists"
+            <FormContainer>
+                <Form autocomplete="false" className={classes.root} noValidate>
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className={classes.margin}
+                            label="Nome completo"
+                            variant="filled"
+                            name="nameInput"
+                            value={form.nameInput}
+                            onChange={handleInputChange}
                         />
-                    </SwitchContainer>
-                </ThemeProvider>
-                <SignUpButton
-                    className={classes.margin}
-                    variant="contained"
-                    color="primary"
-                    onClick={onClickSignUp}>
-                    Inscrever-se
+                        <TextField
+                            className={classes.margin}
+                            label="Nome de usuário"
+                            variant="filled"
+                            name="nicknameInput"
+                            value={form.nicknameInput}
+                            onChange={handleInputChange}
+                        />
+                        <TextField
+                            className={classes.margin}
+                            label="E-mail"
+                            variant="filled"
+                            name="emailInput"
+                            value={form.emailInput}
+                            onChange={handleInputChange}
+                            autocomplete="email"
+                        />
+                        <TextField
+                            className={classes.margin}
+                            label="senha"
+                            variant="filled"
+                            name="passwordInput"
+                            value={form.passwordInput}
+                            onChange={handleInputChange}
+                            type='password'
+                        />
+                        <SwitchContainer>
+                            <FormControlLabel
+                                className={classes.switchArtist}
+                                control={
+                                    <YellowSwitch
+                                        checked={forArtist.status}
+                                        onChange={handleChange}
+                                        name="status"
+                                        color="secundary"
+                                    />
+                                }
+                                label="Meelzer for Artists"
+                            />
+                        </SwitchContainer>
+                    </ThemeProvider>
+                    <SignUpButton
+                        className={classes.margin}
+                        variant="contained"
+                        color="primary"
+                        onClick={onClickSignUp}>
+                        Inscrever-se
                     </SignUpButton>
-            </Form>
+                </Form>
+            </FormContainer>
             <LoginLabelContainer>
                 <LoginLabel>
                     Já possui uma conta? <LoginLink onClick={goToLoginPage}>Faça login</LoginLink>

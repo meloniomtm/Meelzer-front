@@ -48,6 +48,13 @@ display:grid;
 grid-template-rows: 1fr 1fr 1fr;
 max-height: 100vh;
 `
+const FormContainer = styled.div`
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
 
 const Form = styled.form`
     width: 100%;
@@ -56,7 +63,10 @@ const Form = styled.form`
     justify-content: center;
     align-items: center;
     grid-row: 2/3;
-    margin-top: 18vw;
+    margin-top: 10vh;
+    @media(min-width: 800px) {
+    width:50%;
+  }
 `
 
 const LoginButton = styled(Button)`
@@ -64,6 +74,10 @@ const LoginButton = styled(Button)`
     background-color: #ffbd4a;
     color: black;
     border-radius: 35px;
+    :hover{
+        background-color: #f3b446;
+    }
+    
 }
 `
 const LogoContainer = styled.div`
@@ -73,6 +87,7 @@ const LogoContainer = styled.div`
     align-items: center;
     z-index: 1;
     grid-row: 1/2;
+    
 `
 
 const Loading = styled.div`
@@ -95,6 +110,9 @@ const Logo = styled.img`
     position: ${({ activeLoading }) => (activeLoading ? 'relative' : '')};
     right: ${({ activeLoading }) => (activeLoading ? '-18vw' : '')};
     transition: 1s;
+    @media(min-width: 800px) {
+    width:30vw;
+  }
 `
 const Filter = styled.div`
     width: 100%;
@@ -111,6 +129,7 @@ const SignUpButtonContainer = styled.div`
     align-items: center;
     z-index: 1;
     grid-row: 3/4;
+    
 `
 
 const SignUpLabel = styled.p`
@@ -127,6 +146,13 @@ const SignUpButton = styled(Button)`
     background-color: #00000000;
     border-radius: 36px;
     width: 80%;
+    transition: 0.7s;
+    :hover{
+        background-color: #00000066;
+    }
+    @media(min-width: 800px) {
+    width:40%;
+  }
 }
 `
 
@@ -195,34 +221,36 @@ const Login = () => {
                     <Logo activeLoading={loading} src={Meelzer_linha}></Logo>
                 </Loading>
             </LogoContainer>
-            <Form autocomplete="false" className={classes.root} noValidate>
-                <ThemeProvider theme={theme}>
-                    <TextField
-                        className={classes.margin}
-                        label="E-mail/Nickname"
-                        variant="filled"
-                        name="emailInput"
-                        value={form.emailInput}
-                        onChange={handleInputChange}
-                        autocomplete="email"
-                    />
-                    <TextField
-                        className={classes.margin}
-                        label="senha"
-                        variant="filled"
-                        name="InputPassword"
-                        value={form.InputPassword}
-                        onChange={handleInputChange}
-                        type='password'
-                    />
-                </ThemeProvider>
-                <LoginButton
-                    variant="contained"
-                    color="primary"
-                    onClick={onClickLogin}>
-                    Entrar
+            <FormContainer>
+                <Form autocomplete="false" className={classes.root} noValidate>
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className={classes.margin}
+                            label="E-mail/Nickname"
+                            variant="filled"
+                            name="emailInput"
+                            value={form.emailInput}
+                            onChange={handleInputChange}
+                            autocomplete="email"
+                        />
+                        <TextField
+                            className={classes.margin}
+                            label="senha"
+                            variant="filled"
+                            name="InputPassword"
+                            value={form.InputPassword}
+                            onChange={handleInputChange}
+                            type='password'
+                        />
+                    </ThemeProvider>
+                    <LoginButton
+                        variant="contained"
+                        color="primary"
+                        onClick={onClickLogin}>
+                        Entrar
                     </LoginButton>
-            </Form>
+                </Form>
+            </FormContainer>
             <SignUpButtonContainer>
                 <SignUpLabel>Não tem uma conta?</SignUpLabel>
                 <SignUpButton onClick={goToSignUp} variant="contained">Inscreva-se no Meelzer</SignUpButton>
