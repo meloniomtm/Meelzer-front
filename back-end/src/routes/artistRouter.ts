@@ -7,4 +7,3 @@ export const artistRouter = express.Router();
 const artistController = new ArtistController();
 
 artistRouter.post("/signup", artistController.signup);
-artistRouter.post("/login", artistController.login);

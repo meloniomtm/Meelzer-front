@@ -62,11 +62,11 @@ export class User {
         switch (input) {
             case "admin":
                 return UserRole.ADMIN;
-            case "FREE":
+            case "free":
                 return UserRole.FREE;
-            case "PAYING":
+            case "paying":
                 return UserRole.PAYING;
-            case "BLOCK":
+            case "block":
                 return UserRole.BLOCK;
             default:
                 throw new Error("Invalid user role");
@@ -86,11 +86,6 @@ export interface UserInputDTO {
     name: string;
     nickname: string;
     role: UserRole;
-}
-
-export interface LoginInputDTO {
-    email_Nickname: string;
-    password: string;
 }
 
 export enum UserRole {

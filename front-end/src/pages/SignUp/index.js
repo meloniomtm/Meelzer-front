@@ -145,7 +145,7 @@ const SwitchContainer = styled.div`
 
 const SignUp = () => {
     const classes = useStyles();
-    const urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev/"
+    const urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const history = useHistory();
     const { form, onChange } = useForm({ nameInput: '', nicknameInput: '', emailInput: '', passwordInput: '' })
     const token = localStorage.getItem('token')

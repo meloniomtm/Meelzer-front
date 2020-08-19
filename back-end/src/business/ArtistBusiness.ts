@@ -1,4 +1,4 @@
-import { ArtistInputDTO, LoginInputDTO, Artist } from "../model/Artist";
+import { ArtistInputDTO, Artist } from "../model/Artist";
 import { ArtistDatabase } from "../data/ArtistDatabase";
 import { IdGenerator } from "../services/IdGenerator";
 import { HashManager } from "../services/HashManager";
@@ -24,21 +24,5 @@ export class ArtistBusiness {
         return accessToken;
     }
 
-    async getArtistByEmailNickname(artist: LoginInputDTO) {
-        const artistDatabase = new ArtistDatabase();
-        const artistFromDB = await artistDatabase.getArtistByEmailNickname(artist.email_Nickname);
 
-        const hashManager = new HashManager();
-        const hashCompare = await hashManager.compare(artist.password, artistFromDB.getPassword());
-
-        const authenticator = new Authenticator();
-        const accessToken = authenticator.generateToken({ id: artistFromDB.getId() });
-        console.log("ArtistBusiness chegou linha 36")
-        if (!hashCompare) {
-            console.log("ERROR ArtistBusiness linha 38")
-            throw new Error("Invalid Password!");
-        }
-
-        return accessToken;
-    }
 }
