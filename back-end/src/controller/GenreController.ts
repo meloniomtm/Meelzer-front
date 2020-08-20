@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { GenreInputDTO } from "../model/Genre";
+import { GenreInputDTO, GenreInpuGetByNameDTO } from "../model/Genre";
 import { GenreBusiness } from "../business/GenreBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
-import {Authenticator} from "../services/Authenticator";
-import {UserDatabase} from "../data/UserDatabase";
+import { Authenticator } from "../services/Authenticator";
+import { UserDatabase } from "../data/UserDatabase";
 //TO DO: ALTERAR USE PARA ARTIST
 
 export class GenreController {
@@ -14,11 +14,12 @@ export class GenreController {
             const authenticationData = authenticator.getData(token);
             const userDb = new UserDatabase();
             const user = await userDb.getById(authenticationData.id);
-            if (user.role !== 'admin'){
+            if (user.role !== 'admin') {
                 throw new Error("You are not allowed to access this function");
             }
             const input: GenreInputDTO = {
-                name: req.body.name
+                name: req.body.name,
+                image: req.body.image
             }
 
             const genreBusiness = new GenreBusiness();
@@ -40,7 +41,7 @@ export class GenreController {
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
 
-            const input: GenreInputDTO = {
+            const input: GenreInpuGetByNameDTO = {
                 name: req.params.input as string,
             };
             const genre = await genreBusiness.getGenreByName(input.name);
@@ -51,9 +52,20 @@ export class GenreController {
             await BaseDatabase.destroyConnection();
             res.status(400).send({ error: error.message });
         }
-
-        
     }
 
-    
+    async getAllGenre(req: Request, res: Response) {
+        const genreBusiness: GenreBusiness = new GenreBusiness();
+        try {
+            const token = req.headers.authorization as string;
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+            const genre = await genreBusiness.getAllGenre();
+            await BaseDatabase.destroyConnection();
+            res.status(200).send({ genre: genre });
+        } catch (error) {
+            await BaseDatabase.destroyConnection();
+            res.status(400).send({ error: error.message });
+        }
+    }
 }

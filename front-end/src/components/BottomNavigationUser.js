@@ -19,6 +19,7 @@ height: 10vh;
 position: sticky;
 bottom: 0;
 box-shadow: inset 1px 5px 20px 1px #0000002b;
+z-index: 1;
 `
 
 const Button = styled(IconButton)`

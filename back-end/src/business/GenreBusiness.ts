@@ -8,7 +8,7 @@ export class GenreBusiness {
 
     async createGenre(genre: GenreInputDTO) {
         const id = this.idGenerator.generate();
-        await this.genreDatabase.createGenre(id, genre.name);
+        await this.genreDatabase.createGenre(id, genre.name, genre.image);
         return id;
     };
 
@@ -21,6 +21,12 @@ export class GenreBusiness {
     async getGenreById(input: string) {
         const genreDatabase = new GenreDatabase();
         const genre = await genreDatabase.getGenreById(input);
+        return genre;
+    }
+
+    async getAllGenre() {
+        const genreDatabase = new GenreDatabase();
+        const genre = await genreDatabase.getAllGenre();
         return genre;
     }
 }
