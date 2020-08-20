@@ -87,7 +87,6 @@ const LogoContainer = styled.div`
     align-items: center;
     z-index: 1;
     grid-row: 1/2;
-    
 `
 
 const Loading = styled.div`
@@ -110,7 +109,7 @@ const Logo = styled.img`
     position: ${({ activeLoading }) => (activeLoading ? 'relative' : '')};
     right: ${({ activeLoading }) => (activeLoading ? '-18vw' : '')};
     transition: 1s;
-    @media(min-width: 800px) {
+    @media(min-width: 600px) {
     width:30vw;
   }
 `
@@ -129,7 +128,6 @@ const SignUpButtonContainer = styled.div`
     align-items: center;
     z-index: 1;
     grid-row: 3/4;
-    
 `
 
 const SignUpLabel = styled.p`
@@ -160,7 +158,7 @@ const SignUpButton = styled(Button)`
 
 const Login = () => {
     const classes = useStyles();
-    const urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
+    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const history = useHistory();
     const { form, onChange } = useForm({ emailInput: '', InputPassword: '' })
     const token = localStorage.getItem('token')
@@ -189,7 +187,8 @@ const Login = () => {
                     }
                 )
                 .then((response) => {
-                    localStorage.setItem("token", response.data.token)
+                    localStorage.setItem("token", response.data.result.token)
+                    localStorage.setItem("accountType", response.data.result.accountType)
                     console.log(response.data)
                     startLoading()
                     history.push("/home")

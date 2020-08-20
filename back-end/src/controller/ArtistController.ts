@@ -17,7 +17,7 @@ export class ArtistController {
             const artistBusiness = new ArtistBusiness();
             const token = await artistBusiness.createArtist(input);
 
-            res.status(200).send({ token });
+            res.status(200).send({ token: token, accountType: "artist" });
 
         } catch (error) {
             res.status(400).send({ error: error.message });

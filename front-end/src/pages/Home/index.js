@@ -60,6 +60,20 @@ const Home = () => {
         }
     }
 
+    const navType = () => {
+
+        const accountType = localStorage.getItem('accountType')
+        if (accountType === "FREE" || accountType === "PAYING"){
+            return <BottomNavigationUser></BottomNavigationUser>
+        }
+        if (accountType === "ADMIN"){
+            return <BottomNavigationAdmin></BottomNavigationAdmin>
+        }
+        if (accountType === "ARTIST"){
+            return <BottomNavigationArtist></BottomNavigationArtist>
+        }
+    }
+
     useEffect(() => {
         welcomeFunction()
     }, []);
@@ -73,7 +87,7 @@ const Home = () => {
             </MainContainer>
             {/* <BottomNavigationUser></BottomNavigationUser> */}
             {/* <BottomNavigationArtist></BottomNavigationArtist> */}
-            <BottomNavigationAdmin></BottomNavigationAdmin>
+            {navType()}
         </Container>
     )
 }

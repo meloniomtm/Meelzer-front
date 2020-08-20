@@ -168,7 +168,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/back-end-meelzer/dev/1597855666547-2020-08-19T16:47:46.547Z/back-end-meelzer.zip"
+                "S3Key": "serverless/back-end-meelzer/dev/1597880733157-2020-08-19T23:45:33.157Z/back-end-meelzer.zip"
               },
               "FunctionName": "back-end-meelzer-dev-app",
               "Handler": "src/lambda.handler",
@@ -197,14 +197,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionsdxWfYt4ZfYJSj6CKQ5QQ961xcwgxtNkya7jxyV34": {
+          "AppLambdaVersionVqp9LNVTFiMjqpPrkr533FpGVTMBwil5JE25dlJ1I": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "tlTRgPneWk/erdrlAbMKVx0Buc93OUuWnHYpEqtdrzo="
+              "CodeSha256": "syxtilI1dCLdB3tjbdHlvSyB2/qSbd6vqdMHePksjBI="
             }
           },
           "ApiGatewayRestApi": {
@@ -323,7 +323,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1597855571551": {
+          "ApiGatewayDeployment1597880635947": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -383,7 +383,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionsdxWfYt4ZfYJSj6CKQ5QQ961xcwgxtNkya7jxyV34"
+              "Ref": "AppLambdaVersionVqp9LNVTFiMjqpPrkr533FpGVTMBwil5JE25dlJ1I"
             }
           },
           "ServiceEndpoint": {
@@ -515,7 +515,7 @@
         "timeout": 6,
         "runtime": "nodejs12.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionsdxWfYt4ZfYJSj6CKQ5QQ961xcwgxtNkya7jxyV34"
+        "versionLogicalId": "AppLambdaVersionVqp9LNVTFiMjqpPrkr533FpGVTMBwil5JE25dlJ1I"
       }
     },
     "configValidationMode": "warn",
@@ -538,7 +538,7 @@
         "$ref": "$[\"service\"][\"functions\"]"
       },
       "package": {
-        "artifactDirectoryName": "serverless/back-end-meelzer/dev/1597855666547-2020-08-19T16:47:46.547Z"
+        "artifactDirectoryName": "serverless/back-end-meelzer/dev/1597880733157-2020-08-19T23:45:33.157Z"
       },
       "layers": {
         "$ref": "$[\"service\"][\"layers\"]"
@@ -548,7 +548,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/back-end-meelzer/dev/1597855666547-2020-08-19T16:47:46.547Z",
+    "artifactDirectoryName": "serverless/back-end-meelzer/dev/1597880733157-2020-08-19T23:45:33.157Z",
     "artifact": ""
   }
 }

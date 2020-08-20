@@ -7,7 +7,8 @@ export class LoginDatabase extends BaseDatabase {
     private static TABLE_NAME_USER = "Meelzer_User";
     private static TABLE_NAME_ARTIST = "Meelzer_Artist";
 
-    public async getUserByEmailNickname(EmailNickname: string): Promise<User | Artist> {
+    public async getUserByEmailNickname(EmailNickname: string): Promise<any> {
+        let accountType: string = "accountType"
         let result = await this.getConnection()
             .select("*")
             .from(LoginDatabase.TABLE_NAME_USER)
@@ -19,9 +20,12 @@ export class LoginDatabase extends BaseDatabase {
                 .from(LoginDatabase.TABLE_NAME_ARTIST)
                 .where({ email: EmailNickname })
                 .orWhere({ nickname: EmailNickname });
-                return Artist.toArtistModel(result[0]);
+            const user = Artist.toArtistModel(result[0])
+            return { user: user, accountType: 'ARTIST' };
         }
-        return User.toUserModel(result[0]);
+        const user = User.toUserModel(result[0])
+        accountType = user.getRole()
+        return { user: user, accountType: accountType };
     }
 
 }
