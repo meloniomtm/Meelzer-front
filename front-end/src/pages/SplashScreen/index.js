@@ -73,7 +73,7 @@ const SplashScreen = () => {
         <Container className='animation-gradient'>
             <Filter></Filter>
             <LogoContainer>
-                <Logo className='spin-logo' src={Meelzer_logo2}></Logo>
+                <Logo className='beat-logo' src={Meelzer_logo2}></Logo>
             </LogoContainer>
             <PhraseContainer>
                 <Phrase>Developed with</Phrase><FavoriteIcon /><Phrase>by Melissa Tammy</Phrase>

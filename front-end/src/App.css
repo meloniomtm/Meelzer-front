@@ -4,6 +4,20 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar-track {
+  background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+  border-radius: 30px;
+}
+::-webkit-scrollbar-track-piece{
+  background: #3b3b3b;
+}
 .animation-gradient{
   background-color: #000000f0;
   animation: gradient 8s linear infinite alternate;

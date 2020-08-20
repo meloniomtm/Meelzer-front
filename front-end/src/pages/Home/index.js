@@ -6,6 +6,8 @@ import axios from 'axios';
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
+import CardGenre from '../../components/CardGenre'
+
 
 import Header from '../../components/Header'
 
@@ -38,12 +40,27 @@ margin-left: 5vw;
 font-family: 'MuseoModerno', cursive;
 `
 
-
+const GenreContainer = styled.div`
+width: 100%;
+max-width: 100vw;
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+padding-left: 5vw;
+padding-right: 5vw;
+overflow: scroll;
+height: 72vh;
+overflow-x: hidden;
+`
 
 
 const Home = () => {
+    const token = localStorage.getItem('token')
+    const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
+    const [genres, setGenres] = useState([])
 
+    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const welcomeFunction = () => {
         const time = new Date(Date.now()).getHours()
         if (time >= 0 && time <= 3) {
@@ -61,22 +78,36 @@ const Home = () => {
     }
 
     const navType = () => {
-
         const accountType = localStorage.getItem('accountType')
-        if (accountType === "FREE" || accountType === "PAYING"){
+        if (accountType === "FREE" || accountType === "PAYING") {
             return <BottomNavigationUser></BottomNavigationUser>
         }
-        if (accountType === "ADMIN"){
+        if (accountType === "ADMIN") {
             return <BottomNavigationAdmin></BottomNavigationAdmin>
         }
-        if (accountType === "ARTIST"){
+        if (accountType === "ARTIST") {
             return <BottomNavigationArtist></BottomNavigationArtist>
         }
     }
 
+    const getGenres = () => {
+        axios.get(`${urlBack}/genre/getAllGenre`, {
+            headers: {
+                Authorization: token,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            setGenres(response.data.genre)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
     useEffect(() => {
         welcomeFunction()
+        getGenres()
     }, []);
+
 
 
     return (
@@ -84,9 +115,12 @@ const Home = () => {
             <Header></Header>
             <MainContainer>
                 <Welcome>{welcomePhrase}</Welcome>
+                <GenreContainer>
+                    {genres.map(item => {
+                        return (<CardGenre key={item.name} genre={item} ></CardGenre>)
+                    })}
+                </GenreContainer>
             </MainContainer>
-            {/* <BottomNavigationUser></BottomNavigationUser> */}
-            {/* <BottomNavigationArtist></BottomNavigationArtist> */}
             {navType()}
         </Container>
     )

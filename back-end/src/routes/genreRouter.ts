@@ -7,3 +7,4 @@ export const genreRouter = express.Router();
 const genreController = new GenreController();
 
 genreRouter.post("/createGenre", genreController.createGenre);
+genreRouter.get("/getAllGenre", genreController.getAllGenre);

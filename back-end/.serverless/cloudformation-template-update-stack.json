@@ -146,7 +146,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/back-end-meelzer/dev/1597880733157-2020-08-19T23:45:33.157Z/back-end-meelzer.zip"
+          "S3Key": "serverless/back-end-meelzer/dev/1597949158190-2020-08-20T18:45:58.190Z/back-end-meelzer.zip"
         },
         "FunctionName": "back-end-meelzer-dev-app",
         "Handler": "src/lambda.handler",
@@ -175,14 +175,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionVqp9LNVTFiMjqpPrkr533FpGVTMBwil5JE25dlJ1I": {
+    "AppLambdaVersiongZTJIJPQpblUEB4yIIoCOXVaaPyYWW5DQLICRKj1yA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "syxtilI1dCLdB3tjbdHlvSyB2/qSbd6vqdMHePksjBI="
+        "CodeSha256": "6sW0wLBLF6a33qRoOOTauGl5tsLqJj3l7D7pfeIfwD8="
       }
     },
     "ApiGatewayRestApi": {
@@ -301,7 +301,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1597880635947": {
+    "ApiGatewayDeployment1597948972112": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -361,7 +361,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionVqp9LNVTFiMjqpPrkr533FpGVTMBwil5JE25dlJ1I"
+        "Ref": "AppLambdaVersiongZTJIJPQpblUEB4yIIoCOXVaaPyYWW5DQLICRKj1yA"
       }
     },
     "ServiceEndpoint": {

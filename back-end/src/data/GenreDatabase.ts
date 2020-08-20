@@ -7,13 +7,15 @@ export class GenreDatabase extends BaseDatabase {
 
   public async createGenre(
     id: string,
-    name: string
+    name: string,
+    image: string
   ): Promise<void> {
     try {
       await this.getConnection()
         .insert({
           id,
           name,
+          image
         })
         .into(GenreDatabase.TABLE_NAME);
     } catch (error) {
@@ -37,19 +39,11 @@ export class GenreDatabase extends BaseDatabase {
     return result[0];
   }
 
-  public async getGenreByAuthor(author: string): Promise<Genre[]> {
+  public async getAllGenre(): Promise<Genre[]> {
     const result = await this.getConnection()
       .select("*")
       .from(GenreDatabase.TABLE_NAME)
-      .where({ author });
-    return result[0];
-  }
-
-  public async getGenreByAlbum(album: string): Promise<Genre[]> {
-    const result = await this.getConnection()
-      .select("*")
-      .from(GenreDatabase.TABLE_NAME)
-      .where({ album });
-    return result[0];
+      console.log(result)
+    return result;
   }
 }
