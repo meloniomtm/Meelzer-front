@@ -33,7 +33,7 @@ const BottomNavigationUser = () => {
     const history = useHistory();
 
     const goToHome = () => {
-        history.push("/home/feedPage");
+        history.push("/home");
     }
     const goToCart = () => {
         history.push("/cart");

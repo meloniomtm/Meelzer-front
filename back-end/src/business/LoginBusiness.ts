@@ -9,12 +9,12 @@ export class LoginBusiness {
         const loginDatabase = new LoginDatabase();
         const userFromDB = await loginDatabase.getUserByEmailNickname(user.email_Nickname);
         const hashManager = new HashManager();
-        const hashCompare = await hashManager.compare(user.password, userFromDB.getPassword());
+        const hashCompare = await hashManager.compare(user.password, userFromDB.user.getPassword());
         const authenticator = new Authenticator();
-        const accessToken = authenticator.generateToken({ id: userFromDB.getId() });
+        const accessToken = authenticator.generateToken({ id: userFromDB.user.getId() });
         if (!hashCompare) {
-            throw new Error("Invalid Password! 18");
+            throw new Error("Invalid Password!");
         }
-        return accessToken;
+        return {token: accessToken, accountType: userFromDB.accountType};
     }
 }

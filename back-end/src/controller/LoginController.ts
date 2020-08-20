@@ -13,9 +13,9 @@ export class LoginController {
                 password: req.body.password
             };
             const loginBusiness = new LoginBusiness();
-            const token = await loginBusiness.getUserByEmailNickname(loginData);
+            const result = await loginBusiness.getUserByEmailNickname(loginData);
             await BaseDatabase.destroyConnection();
-            res.status(200).send({ token });
+            res.status(200).send({ result });
         } catch (error) {
             await BaseDatabase.destroyConnection();
             res.status(400).send({ error: error.message });
