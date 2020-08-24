@@ -3,7 +3,6 @@ import { ArtistDatabase } from "../data/ArtistDatabase";
 import { IdGenerator } from "../services/IdGenerator";
 import { HashManager } from "../services/HashManager";
 import { Authenticator } from "../services/Authenticator";
-import { Console } from "console";
 
 export class ArtistBusiness {
 
