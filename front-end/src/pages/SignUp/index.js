@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
@@ -161,7 +161,7 @@ const SwitchContainer = styled.div`
 
 const SignUp = () => {
     const classes = useStyles();
-    const urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
+    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const history = useHistory();
     const { form, onChange } = useForm({ nameInput: '', nicknameInput: '', emailInput: '', passwordInput: '' })
     const token = localStorage.getItem('token')
@@ -170,25 +170,29 @@ const SignUp = () => {
         onChange(name, value);
     };
     const [forArtist, setForArtist] = React.useState({ status: false });
-
     const handleChange = (event) => {
         setForArtist({ ...forArtist, [event.target.name]: event.target.checked });
     };
 
     const onClickSignUp = event => {
         event.preventDefault();
+        let userOrArtist = ''
         let body = {}
-        let userOrArtist = 'user'
+        forArtist ? (userOrArtist = 'artist') : (userOrArtist='user')
+        console.log(userOrArtist)
         console.log(forArtist)
-        if (forArtist === true) {
+        if (forArtist.status) {
+            console.log("entrou no true, artista")
             body = {
                 name: form.nameInput,
                 nickname: form.nicknameInput,
                 email: form.emailInput,
                 password: form.passwordInput,
             }
-            userOrArtist = 'artist'
+            userOrArtist = 'artist'            
+            console.log(userOrArtist)
         } else {
+            console.log("entrou no true, user")
             body = {
                 name: form.nameInput,
                 nickname: form.nicknameInput,
@@ -196,8 +200,9 @@ const SignUp = () => {
                 password: form.passwordInput,
                 role: "FREE"
             }
+            userOrArtist='user'            
+            console.log(userOrArtist)
         }
-        console.log(body, userOrArtist)
         axios
             .post(
                 `${urlBack}/${userOrArtist}/signup`,
@@ -210,6 +215,7 @@ const SignUp = () => {
             )
             .then((response) => {
                 localStorage.setItem("token", response.data.token)
+                localStorage.setItem("accountType", response.data.accountType)
                 console.log(response.data)
                 history.push("/home")
             })

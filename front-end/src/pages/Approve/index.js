@@ -6,7 +6,7 @@ import axios from 'axios';
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
-import CardGenre from '../../components/CardGenre'
+import CardArtist from '../../components/CardArtist'
 
 import '../../App.css'
 
@@ -35,7 +35,7 @@ overflow: scroll;
 overflow-x: hidden;
 `
 
-const Welcome = styled.p`
+const Title = styled.p`
 width: 100%;
 font-size: 2em;
 font-family: 'MuseoModerno', cursive;
@@ -43,34 +43,17 @@ margin-bottom: 5vw;
 `
 
 
-const Home = () => {
+const Approve = () => {
     const token = localStorage.getItem('token')
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
-    const [genres, setGenres] = useState([])
+    const [artists, setArtists] = useState([])
 
     let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
-    const welcomeFunction = () => {
-        const time = new Date(Date.now()).getHours()
-        if (time >= 0 && time <= 3) {
-            setWelcomePhrase("Boa Noite!")
-        }
-        if (time >= 4 && time <= 12) {
-            setWelcomePhrase("Bom Dia!")
-        }
-        if (time >= 13 && time <= 17) {
-            setWelcomePhrase("Boa Tarde!")
-        }
-        if (time >= 18 && time < 25) {
-            setWelcomePhrase("Boa Noite!")
-        }
-    }
 
     const navType = () => {
         let accountType = localStorage.getItem('accountType')
         accountType = accountType.toUpperCase()
-        console.log(accountType)
-
         if (accountType === "FREE" || accountType === "PAYING") {
             return <BottomNavigationUser></BottomNavigationUser>
         }
@@ -82,31 +65,31 @@ const Home = () => {
         }
     }
 
-    const getGenres = () => {
-        axios.get(`${urlBack}/genre/getAllGenre`, {
+    const getArtists = () => {
+        axios.get(`${urlBack}/artist/getAllArtists`, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            setGenres(response.data.genre)
+            setArtists(response.data.artist)
+            console.log(response)
         }).catch(error => {
-            console.log(error)
-            console.log(error.response)
-            if(error.response.data.error === "jwt expired"){
-                alert("Sua sessão expirou!")
-                goToLogin()
-            }
+            try {
+                if (error.response.data.error === "jwt expired") {
+                    alert("Sua sessão expirou!")
+                    goToLogin()
+                }
+            } catch{ }
         })
     }
 
     useEffect(() => {
-        if (!localStorage.getItem('token') && !localStorage.getItem('accountType')){
+        if (!localStorage.getItem('token') && !localStorage.getItem('accountType')) {
             goToLogin()
         }
-        welcomeFunction()
-        getGenres()
-        window.scrollTo(0,1);
+        getArtists()
+        window.scrollTo(0, 1);
     }, []);
 
     const goToLogin = () => {
@@ -115,15 +98,16 @@ const Home = () => {
 
     return (
         <Container>
-
             <MainContainer>
-                <Welcome>{welcomePhrase}</Welcome>
-                    {genres.map(item => {
-                        return (<CardGenre key={item.name} genre={item} ></CardGenre>)
-                    })}
+                <Title>Aprovação de artistas</Title>
+                {artists.map(item => {
+                    if (!item.approved) {
+                        return (<CardArtist key={item.id} artist={item}></CardArtist>)
+                    }
+                })}
             </MainContainer>
             {navType()}
         </Container>
     )
 }
-export default Home
+export default Approve

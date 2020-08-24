@@ -96,8 +96,6 @@ const Loading = styled.div`
     align-items: center;
     z-index: 1;
     grid-row: 1/2;
-    width: ${({ activeLoading }) => (activeLoading ? '25vw' : '')};
-    overflow: ${({ activeLoading }) => (activeLoading ? 'hidden' : '')};
     transition: 1s;
 
 `
@@ -106,8 +104,6 @@ const Loading = styled.div`
 const Logo = styled.img`
     width:60vw;
     z-index: 1;
-    position: ${({ activeLoading }) => (activeLoading ? 'relative' : '')};
-    right: ${({ activeLoading }) => (activeLoading ? '-18vw' : '')};
     transition: 1s;
     @media(min-width: 600px) {
     width:30vw;
@@ -191,7 +187,7 @@ const Login = () => {
                     localStorage.setItem("accountType", response.data.result.accountType)
                     console.log(response.data)
                     startLoading()
-                    history.push("/home")
+                    goToHome()
                 })
                 .catch((error) => {
                     console.log("error")
@@ -210,6 +206,9 @@ const Login = () => {
 
     const goToSignUp = () => {
         history.push("/signup")
+    }
+    const goToHome = () => {
+        history.push("/home")
     }
 
     return (

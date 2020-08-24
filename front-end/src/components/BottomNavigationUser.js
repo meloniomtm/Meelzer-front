@@ -9,14 +9,14 @@ import styled from 'styled-components';
 
 const ContainerFooter = styled.div`
 grid-row: 3/4;
-background-color: #00000000;
+background-color: #525252;
 border-top: 1px solid #0000001e;
 display:flex;
 justify-content: center;
 align-items:center;
 width:100%;
 height: 10vh;
-position: sticky;
+position: fixed;
 bottom: 0;
 box-shadow: inset 1px 5px 20px 1px #0000002b;
 z-index: 1;
