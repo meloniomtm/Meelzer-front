@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
+import FormUser from '../../components/FormUser'
+import FormGenre from '../../components/FormGenre'
 import { useForm } from '../../hooks/useForm'
 
 import {
@@ -180,85 +182,9 @@ const Approve = () => {
         <Container>
             <MainContainer>
                 <Title>Adicionar administradores</Title>
-                <FormContainer>
-                    <Form autocomplete="false" className={classes.root} noValidate>
-                        <ThemeProvider theme={theme}>
-                            <TextField
-                                className={classes.margin}
-                                label="Nome completo"
-                                variant="filled"
-                                name="nameInput"
-                                value={form.nameInput}
-                                onChange={handleInputChange}
-                            />
-                            <TextField
-                                className={classes.margin}
-                                label="Nome de usuário"
-                                variant="filled"
-                                name="nicknameInput"
-                                value={form.nicknameInput}
-                                onChange={handleInputChange}
-                            />
-                            <TextField
-                                className={classes.margin}
-                                label="E-mail"
-                                variant="filled"
-                                name="emailInput"
-                                value={form.emailInput}
-                                onChange={handleInputChange}
-                                autocomplete="email"
-                            />
-                            <TextField
-                                className={classes.margin}
-                                label="senha"
-                                variant="filled"
-                                name="passwordInput"
-                                value={form.passwordInput}
-                                onChange={handleInputChange}
-                                type='password'
-                            />
-                        </ThemeProvider>
-                        <SignUpButton
-                            className={classes.margin}
-                            variant="contained"
-                            color="primary"
-                        >
-                            Registrar
-                    </SignUpButton>
-                    </Form>
-                </FormContainer>
+                <FormUser></FormUser>
                 <Title>Adicionar gêneros</Title>
-                <FormContainer>
-                    <Form autocomplete="false" className={classes.root} noValidate>
-                        <ThemeProvider theme={theme}>
-                            <TextField
-                                className={classes.margin}
-                                label="senha"
-                                variant="filled"
-                                name="passwordInput"
-                                value={form.passwordInput}
-                                onChange={handleInputChange}
-                                type='password'
-                            />
-                                                        <TextField
-                                className={classes.margin}
-                                label="senha"
-                                variant="filled"
-                                name="passwordInput"
-                                value={form.passwordInput}
-                                onChange={handleInputChange}
-                                type='password'
-                            />
-                        </ThemeProvider>
-                        <SignUpButton
-                            className={classes.margin}
-                            variant="contained"
-                            color="primary"
-                        >
-                            Registrar
-                    </SignUpButton>
-                    </Form>
-                </FormContainer>
+                <FormGenre></FormGenre>
             </MainContainer>
             {navType()}
         </Container>
