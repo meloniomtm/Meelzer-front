@@ -28,29 +28,39 @@ export class ArtistDatabase extends BaseDatabase {
     }
   }
 
-  public async getArtistByEmailNickname (EmailNickname: string): Promise<Artist> {
-     const result = await this.getConnection()
-       .select("*")
-       .from(ArtistDatabase.TABLE_NAME)
-       .where({ email: EmailNickname })
-       .orWhere({nickname: EmailNickname});
-
-     return Artist.toArtistModel(result[0]);
-   }
-   
-  public async getById(id: string): Promise<any> {
+  public async getArtistByEmailNickname(EmailNickname: string): Promise<Artist> {
     const result = await this.getConnection()
       .select("*")
       .from(ArtistDatabase.TABLE_NAME)
-      .where({ id });
+      .where({ email: EmailNickname })
+      .orWhere({ nickname: EmailNickname });
+
+    return Artist.toArtistModel(result[0]);
+  }
+
+  public async putApproveArtist(id: string): Promise<any> {
+    console.log(id)
+    const result = await this.getConnection().raw(`
+    UPDATE ${ArtistDatabase.TABLE_NAME}
+    SET approved = true
+    WHERE id='${id}';
+    `)
     return result[0];
   }
 
-  public async getAllArtists(id: string): Promise<any> {
-    const result = await this.getConnection()
-      .select("*")
-      .from(ArtistDatabase.TABLE_NAME);
-    return result[0];
-  }
-
+  /*  public async getById(id: string): Promise<any> {
+      const result = await this.getConnection()
+        .select("*")
+        .from(ArtistDatabase.TABLE_NAME)
+        .where({ id });
+      return result[0];
+    }
+  */
+    public async getAllArtists(): Promise<any> {
+      const result = await this.getConnection()
+        .select("*")
+        .from(ArtistDatabase.TABLE_NAME);
+      return result;
+    }
+  
 }

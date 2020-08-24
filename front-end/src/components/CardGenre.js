@@ -9,12 +9,25 @@ background-size: cover;
 background-repeat: no-repeat;
 width:40vw;
 height:40vw;
+
 display:flex;
 justify-content: center;
 align-items: center;
 margin-bottom: 5vw;
 box-shadow: 0px 0px 9px 1px #0000006b;
 font-family: 'MuseoModerno', cursive;
+@media(min-width: 500px) {
+    width:25vw;
+    height:25vw;
+  }
+  @media(min-width: 800px) {
+    width:20vw;
+    height:20vw;
+  }
+  @media(min-width: 1500px) {
+    width:15vw;
+    height:15vw;
+  }
 `
 const Image = styled.img`
 width:40vw;

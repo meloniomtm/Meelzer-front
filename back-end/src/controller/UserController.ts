@@ -19,11 +19,10 @@ export class UserController {
             const token = await userBusiness.createUser(input);
             await BaseDatabase.destroyConnection();
 
-            res.status(200).send({ token });
+            res.status(200).send({ token: token, accountType: input.role });
 
         } catch (error) {
             await BaseDatabase.destroyConnection();
-
             res.status(400).send({ error: error.message });
         }
     }

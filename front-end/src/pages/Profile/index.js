@@ -43,7 +43,7 @@ margin-bottom: 5vw;
 `
 
 
-const Home = () => {
+const Profile = () => {
     const token = localStorage.getItem('token')
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
@@ -67,10 +67,7 @@ const Home = () => {
     }
 
     const navType = () => {
-        let accountType = localStorage.getItem('accountType')
-        accountType = accountType.toUpperCase()
-        console.log(accountType)
-
+        const accountType = localStorage.getItem('accountType')
         if (accountType === "FREE" || accountType === "PAYING") {
             return <BottomNavigationUser></BottomNavigationUser>
         }
@@ -91,12 +88,11 @@ const Home = () => {
         }).then(response => {
             setGenres(response.data.genre)
         }).catch(error => {
-            console.log(error)
-            console.log(error.response)
             if(error.response.data.error === "jwt expired"){
                 alert("Sua sessão expirou!")
                 goToLogin()
             }
+            console.log(error.response.data.error)
         })
     }
 
@@ -126,4 +122,4 @@ const Home = () => {
         </Container>
     )
 }
-export default Home
+export default Profile

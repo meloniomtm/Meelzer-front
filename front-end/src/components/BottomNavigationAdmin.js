@@ -3,6 +3,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
 import PersonIcon from '@material-ui/icons/Person';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
@@ -10,14 +11,14 @@ import styled from 'styled-components';
 
 const ContainerFooter = styled.div`
 grid-row: 3/4;
-background-color: #00000000;
+background-color: #525252;
 border-top: 1px solid #0000001e;
 display:flex;
 justify-content: center;
 align-items:center;
 width:100%;
 height: 10vh;
-position: sticky;
+position: fixed;
 bottom: 0;
 box-shadow: inset 1px 5px 20px 1px #0000002b;
 z-index: 1;
@@ -31,14 +32,23 @@ const Button = styled(IconButton)`
 }
 `
 
+
+
+
 const BottomNavigationAdmin = () => {
     const history = useHistory();
 
     const goToHome = () => {
         history.push("/home");
     }
-    const goToCart = () => {
-        history.push("/cart");
+    const goToSearch = () => {
+        history.push("/search");
+    }
+    const goToAdd = () => {
+        history.push("/add");
+    }
+    const goToApprove = () => {
+        history.push("/approve");
     }
     const goToProfile = () => {
         history.push("/profile");
@@ -50,16 +60,16 @@ const BottomNavigationAdmin = () => {
                     <HomeIcon
                         style={{ fontSize: 35 }} />
                 </Button>
-                <Button onClick={goToCart}>
+                <Button onClick={goToSearch}>
                     <SearchIcon
                         style={{ fontSize: 35 }} />
                 </Button>
-                <Button onClick={goToProfile}>
+                <Button onClick={goToAdd}>
                     <AddIcon
                         style={{ fontSize: 35 }} />
                 </Button>
-                <Button onClick={goToProfile}>
-                    <PersonIcon
+                <Button onClick={goToApprove}>
+                    <SupervisorAccountIcon
                         style={{ fontSize: 35 }} />
                 </Button>
             </ContainerFooter>

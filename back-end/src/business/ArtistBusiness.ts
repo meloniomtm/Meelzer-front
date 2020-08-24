@@ -24,5 +24,15 @@ export class ArtistBusiness {
         return accessToken;
     }
 
+    async putApproveArtist(id: string) {
+        const artistDatabase = new ArtistDatabase();
+        const artist = await artistDatabase.putApproveArtist(id);
+        return artist;
+    }
 
+    async getAllArtists() {
+        const artistDatabase = new ArtistDatabase();
+        const artist = await artistDatabase.getAllArtists();
+        return artist;
+    }
 }

@@ -4,6 +4,10 @@ import SplashScreen from '../pages/SplashScreen'
 import Login from '../pages/Login'
 import SignUp from '../pages/SignUp'
 import Home from '../pages/Home'
+import Approve from '../pages/Approve'
+import Profile from '../pages/Profile'
+import Add from '../pages/Add'
+import Search from '../pages/Search'
 
 const Router = () => {
     const [state, dispatch] = useReducer()
@@ -21,6 +25,18 @@ const Router = () => {
                 </Route>
                 <Route exact path='/home'>
                     <Home />
+                </Route>
+                <Route exact path='/approve'>
+                    <Approve />
+                </Route>
+                <Route exact path='/profile'>
+                    <Profile />
+                </Route>
+                <Route exact path='/add'>
+                    <Add />
+                </Route>
+                <Route exact path='/search'>
+                    <Search />
                 </Route>
             </Switch>
         </BrowserRouter>
