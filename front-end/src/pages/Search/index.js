@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
@@ -7,6 +7,10 @@ import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
 import CardGenre from '../../components/CardGenre'
+import CardArtist from '../../components/CardArtist'
+import { useForm } from '../../hooks/useForm'
+import SearchContext from '../../contexts/SearchContext'
+
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -79,16 +83,23 @@ const LoadingContainer = styled.div`
 `
 
 const Search = () => {
+    const searchContext = useContext(SearchContext);
     const token = localStorage.getItem('token')
     const history = useHistory()
     const [genres, setGenres] = useState([])
+    const [result, setResult] = useState([])
     const [loading, setLoading] = useState(false)
     const classes = useStyles();
+    const { form, onChange } = useForm({ search: '' })
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [num, setNum] = useState(1)
 
     let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
 
     const navType = () => {
-        const accountType = localStorage.getItem('accountType')
+        let accountType = localStorage.getItem('accountType')
+        accountType = accountType.toUpperCase()
         if (accountType === "FREE" || accountType === "PAYING") {
             return <BottomNavigationUser></BottomNavigationUser>
         }
@@ -98,6 +109,39 @@ const Search = () => {
         if (accountType === "ARTIST") {
             return <BottomNavigationArtist></BottomNavigationArtist>
         }
+    }
+
+    const handleApplyFilters = () => {
+        const newFilters = { search: form.search };
+        searchContext.dispatch({ type: "SET_FILTER", search: newFilters });
+    };
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        onChange(name, value);
+        console.log("Execução nº", num, "\n Valor recebido no onChange: ", form.search)
+        setNum(num+1)
+        handleApplyFilters()
+    };
+    const getAll = () => {
+        setLoading(true)
+        axios.get(`${urlBack}/search`, {
+            headers: {
+                Authorization: token,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            setResult(response.data)
+            setLoading(false)
+        }).catch(error => {
+            try {
+                if (error.response.data.error === "jwt expired") {
+                    alert("Sua sessão expirou!")
+                    goToLogin()
+                }
+            } catch{ }
+            setLoading(false)
+        })
     }
 
     const getGenres = () => {
@@ -115,7 +159,6 @@ const Search = () => {
                 alert("Sua sessão expirou!")
                 goToLogin()
             }
-            console.log(error.response.data.error)
             setLoading(false)
         })
     }
@@ -125,11 +168,21 @@ const Search = () => {
             goToLogin()
         }
         getGenres()
+        getAll()
         window.scrollTo(0, 1);
     }, []);
 
     const goToLogin = () => {
         history.push("/login")
+    }
+
+    let filteredResults = result;
+
+
+    if (searchContext.search !== null) {
+        filteredResults = filteredResults.filter((item) => {
+            return item.name.toLowerCase().includes(searchContext.search.search.toLowerCase());
+        })
     }
 
     return (
@@ -139,9 +192,23 @@ const Search = () => {
                 (
                     <MainContainer>
                         <Title>Buscar</Title>
-                        <InputSearch placeholder='Buscar por música, artista, álbum...'></InputSearch>
-                        {genres.map(item => {
-                            return (<CardGenre key={item.name} genre={item} ></CardGenre>)
+                        <InputSearch
+                            name="search"
+                            value={form.search}
+                            onChange={handleInputChange}
+                            type='text'
+                            placeholder='Buscar por música, artista, álbum...'></InputSearch>
+                        {filteredResults.map ? (<Title>gêneros</Title>) : (<></>)}
+                        {filteredResults.map(item => {
+                            if (item.type === 'genre') {
+                                return (<CardGenre key={item.name} genre={item} ></CardGenre>)
+                            }
+                        })}
+                        {filteredResults.findIndex(item=>{return true}) ? (<Title>Artistas</Title>) : (<></>)}
+                        {filteredResults.map(item => {
+                            if (item.type === 'artist') {
+                                return (<CardArtist key={item.name} artist={item} ></CardArtist>)
+                            }
                         })}
                     </MainContainer>
                 )}

@@ -3,10 +3,27 @@ import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
+import FormUser from '../../components/FormUser'
+import FormGenre from '../../components/FormGenre'
+import { useForm } from '../../hooks/useForm'
+
+import {
+    ThemeProvider,
+    makeStyles,
+    createMuiTheme,
+} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { withStyles } from '@material-ui/core/styles';
+import { amber } from '@material-ui/core/colors';
+
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
-import CardArtist from '../../components/CardArtistApprove'
+import CardArtist from '../../components/CardArtist'
 
 import '../../App.css'
 
@@ -42,9 +59,74 @@ font-family: 'MuseoModerno', cursive;
 margin-bottom: 5vw;
 `
 
+const FormContainer = styled.div`
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+const Form = styled.form`
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-row: 2/3;
+    @media(min-width: 800px) {
+    width:50%;
+  }
+`
+const SignUpButton = styled(Button)`
+&&{
+    background-color: #ffbd4a;
+    color: black;
+    border-radius: 35px;
+}
+`
 
-const Approve = () => {
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+
+            backgroundColor: '#ffffff00',
+        },
+    },
+    '&.Mui-focused fieldset': {
+        borderColor: 'green',
+    },
+    margin: {
+        backgroundColor: '#ffffff',
+        width: '80%',
+    },
+    switchArtist: {
+        backgroundColor: '#ffbd4a00',
+        color: "#ffffff",
+        zIndex: "modal",
+
+    },
+}));
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: '#000',
+        },
+        secundary: {
+            main: '#ffbd4a',
+        },
+    },
+});
+
+const Release = () => {
+    const classes = useStyles();
+    const { form, onChange } = useForm({ nameInput: '', nicknameInput: '', emailInput: '', passwordInput: '' })
     const token = localStorage.getItem('token')
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        onChange(name, value);
+    };
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
     const [artists, setArtists] = useState([])
@@ -99,15 +181,13 @@ const Approve = () => {
     return (
         <Container>
             <MainContainer>
-                <Title>Aprovação de artistas</Title>
-                {artists.map(item => {
-                    if (!item.approved) {
-                        return (<CardArtist key={item.id} artist={item}></CardArtist>)
-                    }
-                })}
+                <Title>Lançar música</Title>
+                <FormUser></FormUser>
+                <Title>Lançar Álbum</Title>
+                <FormGenre></FormGenre>
             </MainContainer>
             {navType()}
         </Container>
     )
 }
-export default Approve
+export default Release
