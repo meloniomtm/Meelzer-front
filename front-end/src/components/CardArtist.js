@@ -7,12 +7,12 @@ flex-direction: column;
 justify-content:space-between;
 align-items:center;
 width:40vw;
-height:40vw;
+height:fit-content;
 margin-bottom: 5vw;
 font-family: 'MuseoModerno', cursive;
 @media(min-width: 500px) {
     width:25vw;
-    height:25vw;
+    height:fit-content;
   }
   @media(min-width: 800px) {
     width:20vw;
@@ -25,10 +25,19 @@ font-family: 'MuseoModerno', cursive;
 `
 const Image = styled.img`
 width:100%;
-height:100%;
+height:40vw;
 border-radius: 100px;
 object-fit: cover;
 object-position: center;
+@media(min-width: 500px) {
+    height:25vw;
+  }
+  @media(min-width: 800px) {
+    height:20vw;
+  }
+  @media(min-width: 1500px) {
+    height:15vw;
+  }
 `
 
 const Title = styled.h3`
@@ -39,7 +48,7 @@ const CardArtist = (props) => {
     return (
         <>
             <Container >
-                <Image src={props.artist.image ? (props.artist.image):('https://images.unsplash.com/photo-1453090927415-5f45085b65c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=731&q=80')}></Image>
+                <Image src={props.artist.image ? (props.artist.image) : ('https://unsplash.com/photos/ojVMh1QTVGY')}></Image>
                 <Title>{props.artist.name}</Title>
             </Container>
         </>

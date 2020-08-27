@@ -77,9 +77,19 @@ const InputSearch = styled.input`
 
 const LoadingContainer = styled.div`
     width: 100%;
+    min-height: max-content;
+    min-height: -webkit-fill-available;
     display: flex;
     justify-content: center;
     align-items: center;
+`
+
+const ResultContainer = styled.div`
+width: 100%;
+min-height: -webkit-fill-available;
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
 `
 
 const Search = () => {
@@ -119,10 +129,9 @@ const Search = () => {
     const handleInputChange = event => {
         const { name, value } = event.target;
         onChange(name, value);
-        console.log("Execução nº", num, "\n Valor recebido no onChange: ", form.search)
-        setNum(num+1)
         handleApplyFilters()
     };
+
     const getAll = () => {
         setLoading(true)
         axios.get(`${urlBack}/search`, {
@@ -170,7 +179,7 @@ const Search = () => {
         getGenres()
         getAll()
         window.scrollTo(0, 1);
-    }, []);
+    }, [form.search]);
 
     const goToLogin = () => {
         history.push("/login")
@@ -187,32 +196,33 @@ const Search = () => {
 
     return (
         <Container>
-            {loading ?
-                (<LoadingContainer><CircularProgress className={classes.loading} /></LoadingContainer>) :
-                (
-                    <MainContainer>
-                        <Title>Buscar</Title>
-                        <InputSearch
-                            name="search"
-                            value={form.search}
-                            onChange={handleInputChange}
-                            type='text'
-                            placeholder='Buscar por música, artista, álbum...'></InputSearch>
+            <MainContainer>
+                <Title>Buscar</Title>
+                <InputSearch
+                    name="search"
+                    value={form.search}
+                    onChange={handleInputChange}
+                    type='text'
+                    placeholder='Buscar por música, artista, álbum...'></InputSearch>
+                {loading ?
+                    (<LoadingContainer><CircularProgress className={classes.loading} /></LoadingContainer>) :
+                    (<ResultContainer>
                         {filteredResults.map ? (<Title>gêneros</Title>) : (<></>)}
                         {filteredResults.map(item => {
                             if (item.type === 'genre') {
                                 return (<CardGenre key={item.name} genre={item} ></CardGenre>)
                             }
                         })}
-                        {filteredResults.findIndex(item=>{return true}) ? (<Title>Artistas</Title>) : (<></>)}
+                        {filteredResults ? (<Title>Artistas</Title>) : (<></>)}
                         {filteredResults.map(item => {
                             if (item.type === 'artist') {
                                 return (<CardArtist key={item.name} artist={item} ></CardArtist>)
                             }
-                        })}
-                    </MainContainer>
-                )}
-
+                        })
+                        }
+                    </ResultContainer>)
+                }
+            </MainContainer>
             {navType()}
         </Container>
     )
