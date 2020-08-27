@@ -37,8 +37,11 @@ const BottomNavigationArtist = () => {
     const goToHome = () => {
         history.push("/home");
     }
-    const goToCart = () => {
-        history.push("/cart");
+    const goToSearch = () => {
+        history.push("/search");
+    }
+    const goToRelease = () => {
+        history.push("/release");
     }
     const goToProfile = () => {
         history.push("/profile");
@@ -50,11 +53,11 @@ const BottomNavigationArtist = () => {
                     <HomeIcon
                         style={{ fontSize: 35 }} />
                 </Button>
-                <Button onClick={goToCart}>
+                <Button onClick={goToSearch}>
                     <SearchIcon
                         style={{ fontSize: 35 }} />
                 </Button>
-                <Button onClick={goToProfile}>
+                <Button onClick={goToRelease}>
                     <LibraryAddIcon
                         style={{ fontSize: 35 }} />
                 </Button>

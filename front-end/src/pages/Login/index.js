@@ -156,7 +156,7 @@ const Login = () => {
     const classes = useStyles();
     let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const history = useHistory();
-    const { form, onChange } = useForm({ emailInput: '', InputPassword: '' })
+    const { form, onChange } = useForm({ emailInput: 'admin', InputPassword: 'admin' })
     const token = localStorage.getItem('token')
     const handleInputChange = event => {
         const { name, value } = event.target;

@@ -12,7 +12,7 @@ export class SearchController {
             const authenticationData = authenticator.getData(token);
             const search = await artistBusiness.getAll();
             await BaseDatabase.destroyConnection();
-            res.status(200).send({ search });
+            res.status(200).send(search);
         } catch (error) {
             await BaseDatabase.destroyConnection();
             res.status(400).send({ error: error.message });

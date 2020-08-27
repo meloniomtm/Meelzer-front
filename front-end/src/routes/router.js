@@ -8,6 +8,7 @@ import Approve from '../pages/Approve'
 import Profile from '../pages/Profile'
 import Add from '../pages/Add'
 import Search from '../pages/Search'
+import Release from '../pages/Release'
 
 const Router = () => {
     const [state, dispatch] = useReducer()
@@ -37,6 +38,9 @@ const Router = () => {
                 </Route>
                 <Route exact path='/search'>
                     <Search />
+                </Route>
+                <Route exact path='/release'>
+                    <Release />
                 </Route>
             </Switch>
         </BrowserRouter>

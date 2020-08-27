@@ -67,7 +67,8 @@ const Profile = () => {
     }
 
     const navType = () => {
-        const accountType = localStorage.getItem('accountType')
+        let accountType = localStorage.getItem('accountType')
+        accountType = accountType.toUpperCase()
         if (accountType === "FREE" || accountType === "PAYING") {
             return <BottomNavigationUser></BottomNavigationUser>
         }

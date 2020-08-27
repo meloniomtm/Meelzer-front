@@ -119,7 +119,7 @@ const theme = createMuiTheme({
     },
 });
 
-const Approve = () => {
+const Add = () => {
     const classes = useStyles();
     const { form, onChange } = useForm({ nameInput: '', nicknameInput: '', emailInput: '', passwordInput: '' })
     const token = localStorage.getItem('token')
@@ -190,4 +190,4 @@ const Approve = () => {
         </Container>
     )
 }
-export default Approve
+export default Add
