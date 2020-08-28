@@ -13,7 +13,7 @@ export class GenreController {
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
             const userDb = new UserDatabase();
-            const user = await userDb.getById(authenticationData.id);
+            const user = await userDb.getUserById(authenticationData.id);
             if (user.role !== 'admin') {
                 throw new Error("You are not allowed to access this function");
             }

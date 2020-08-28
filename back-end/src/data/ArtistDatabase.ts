@@ -38,13 +38,6 @@ export class ArtistDatabase extends BaseDatabase {
     return Artist.toArtistModel(result[0]);
   }
 
-  public async getById(id: string): Promise<any> {
-    const result = await this.getConnection()
-      .select("*")
-      .from(ArtistDatabase.TABLE_NAME)
-      .where({ id });
-    return result[0];
-  }
   public async putApproveArtist(id: string): Promise<any> {
     console.log(id)
     const result = await this.getConnection().raw(`
@@ -55,14 +48,6 @@ export class ArtistDatabase extends BaseDatabase {
     return result[0];
   }
 
-  /*  public async getById(id: string): Promise<any> {
-      const result = await this.getConnection()
-        .select("*")
-        .from(ArtistDatabase.TABLE_NAME)
-        .where({ id });
-      return result[0];
-    }
-  */
     public async getAllArtists(): Promise<any> {
       const result = await this.getConnection()
         .select("*")
@@ -70,4 +55,11 @@ export class ArtistDatabase extends BaseDatabase {
       return result;
     }
   
+    public async getArtistById(id: string): Promise<any> {
+      const result = await this.getConnection()
+        .select("*")
+        .from(ArtistDatabase.TABLE_NAME)
+        .where({ id });
+      return result[0];
+    }
 }

@@ -34,4 +34,10 @@ export class ArtistBusiness {
         const artist = await artistDatabase.getAllArtists();
         return artist;
     }
+
+    async getArtistById(input: string) {
+        const artistDatabase = new ArtistDatabase();
+        const artist = await artistDatabase.getArtistById(input);
+        return artist;
+    }
 }
