@@ -3,8 +3,7 @@ import { MusicInputDTO, NameInputDTO } from "../model/Music";
 import { MusicBusiness } from "../business/MusicBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
 import {Authenticator} from "../services/Authenticator";
-import {UserDatabase} from "../data/UserDatabase";
-//TO DO: ALTERAR USE PARA ARTIST
+import {ArtistDatabase} from "../data/ArtistDatabase";
 
 export class MusicController {
     async createMusic(req: Request, res: Response) {
@@ -12,13 +11,15 @@ export class MusicController {
             const token = req.headers.authorization as string;
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
-            const userDb = new UserDatabase();
-            const user = await userDb.getById(authenticationData.id);
-
+            const artistDb = new ArtistDatabase();
+            const artist = await artistDb.getById(authenticationData.id);
+            console.log(artist)
             const input: MusicInputDTO = {
-                author: user.name,
                 name: req.body.name,
-                id_album: req.body.name
+                releasedIn: req.body.releasedIn,
+                id_album: req.body.id_album,
+                id_artist: artist.id,
+                name_artist: artist.name,
             }
 
             const musicBusiness = new MusicBusiness();
@@ -33,30 +34,8 @@ export class MusicController {
         await BaseDatabase.destroyConnection();
     }
 
-    async getMusicByName(req: Request, res: Response) {
+    async getAllMusics(req: Request, res: Response) {
         const musicBusiness: MusicBusiness = new MusicBusiness();
-        try {
-            const token = req.headers.authorization as string;
-
-            const authenticator = new Authenticator();
-            const authenticationData = authenticator.getData(token);
-
-            const input: NameInputDTO = {
-                name: req.params.input as string,
-            };
-            const music = await musicBusiness.getMusicByName(input.name);
-
-            res.status(200).send({ music: music });
-
-        } catch (error) {
-            res.status(400).send({ error: error.message });
-        }
-
-        await BaseDatabase.destroyConnection();
-    }
-
-    async getMusicByResponsible(req: Request, res: Response) {
-        const bandBusiness: MusicBusiness = new MusicBusiness();
 
         try {
             const token = req.headers.authorization as string;
@@ -64,17 +43,20 @@ export class MusicController {
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
 
-            const responsible: NameInputDTO = {
-                name: req.params.responsible as string,
+            
+            const input: any = {
+                search: req.params.search as string,
             };
-            const band = await bandBusiness.getMusicByName(responsible.name);
+            const music = await musicBusiness.getAllMusics();
 
-            res.status(200).send({ band: band });
+            await BaseDatabase.destroyConnection();
+            res.status(200).send({ result: music });
 
         } catch (error) {
+            await BaseDatabase.destroyConnection();
             res.status(400).send({ error: error.message });
         }
 
-        await BaseDatabase.destroyConnection();
     }
+
 }

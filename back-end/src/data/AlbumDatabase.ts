@@ -36,11 +36,10 @@ export class AlbumDatabase extends BaseDatabase {
         return result[0];
     }
 
-    public getAllAlbunsByArtist = async (artist: string): Promise<Album[]> => {
-        const result = await this.getConnection().raw(`
-        SELECT * FROM ${AlbumDatabase.TABLE_NAME}  
-        WHERE id_artist='${artist}';
-    `)
-        return result[0][0];
+    public getAllAlbuns = async (): Promise<Album[]> => {
+        const result = await this.getConnection()
+            .select("*")
+            .from(AlbumDatabase.TABLE_NAME)
+        return result;
     }
 }

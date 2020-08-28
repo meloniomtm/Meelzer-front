@@ -1,19 +1,16 @@
 export class Music{
     constructor(
     private   id: string,
-    private author: string,
     private name: string,
     private releasedIn: string,
     private id_album: string|null|undefined,
+    private id_artist: string,
+    private name_artist: string,
     private published: boolean
     ){}
 
     getId(){
         return this.id;
-    }
-
-    getAuthor(){
-        return this.author
     }
 
     getName(){
@@ -28,16 +25,20 @@ export class Music{
         return this.id_album;
     }
 
+    getId_artist(){
+        return this.id_artist;
+    }    
+    
+    getName_artist(){
+        return this.name_artist;
+    }
+
     getPublished(){
         return this.published;
     }
 
     setId(id: string){
         this.id = id;
-    }
-
-    setAuthor(author: string){
-        this.author = author;
     }
 
     setName(name: string){
@@ -57,14 +58,16 @@ export class Music{
     }
 
     static toMusicModel(music: any): Music {
-        return new Music(music.id, music.author, music.name, music.releasedIn, music.id_album, music.published);
+        return new Music(music.id, music.name, music.releasedIn, music.id_album, music.id_artist, music.name_artist, music.published);
       }
 }
 
 export interface MusicInputDTO{
-    author: string,
     name: string,
-    id_album: string|null|undefined
+    releasedIn: Date,
+    id_album: string|null|undefined,
+    id_artist: string,
+    name_artist: string
 }
 
 export interface NameInputDTO{
