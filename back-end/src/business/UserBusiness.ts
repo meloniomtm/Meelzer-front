@@ -24,5 +24,11 @@ export class UserBusiness {
         return accessToken;
     }
 
+    async getUserById(input: string) {
+        const userDatabase = new UserDatabase();
+        const user = await userDatabase.getUserById(input);
+        return user;
+    }
+
 
 }

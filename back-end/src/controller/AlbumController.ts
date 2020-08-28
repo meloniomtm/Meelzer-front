@@ -13,7 +13,7 @@ export class AlbumController {
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
             const artistDb = new ArtistDatabase();
-            const artist = await artistDb.getById(authenticationData.id);
+            const artist = await artistDb.getArtistById(authenticationData.id);
             const input: AlbumInputDTO = {
                 id_artist: artist.id,
                 name: req.body.name,

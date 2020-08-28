@@ -13,8 +13,8 @@ export class SearchBusiness {
         const artist = await artistDatabase.getAllArtists();
         const genreDatabase = new GenreDatabase();
         const genre = await genreDatabase.getAllGenre();
-        const musicDatabase = new ArtistDatabase();
-        const music = await musicDatabase.getAllArtists();
+        const musicDatabase = new MusicDatabase();
+        const music = await musicDatabase.getAllMusics();
         const albumDatabase = new ArtistDatabase();
         const album = await albumDatabase.getAllArtists();
         let result: any = []
@@ -29,6 +29,11 @@ export class SearchBusiness {
         album.map((item: any) => {
             if (item.published == 1) {
                 result.push({id: item.id, name: item.name, image: item.image, type:'album'})
+            }
+        })
+        album.map((item: any) => {
+            if (item.published == 1) {
+                result.push({id: item.id, name: item.name, image: item.image, type:'music'})
             }
         })
         return result;

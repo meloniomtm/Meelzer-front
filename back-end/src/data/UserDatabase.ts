@@ -40,7 +40,7 @@ export class UserDatabase extends BaseDatabase {
      return User.toUserModel(result[0]);
    }
    
-  public async getById(id: string): Promise<any> {
+  public async getUserById(id: string): Promise<any> {
     const result = await this.getConnection()
       .select("*")
       .from(UserDatabase.TABLE_NAME)

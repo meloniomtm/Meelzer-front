@@ -12,7 +12,7 @@ export class MusicController {
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
             const artistDb = new ArtistDatabase();
-            const artist = await artistDb.getById(authenticationData.id);
+            const artist = await artistDb.getArtistById(authenticationData.id);
             console.log(artist)
             const input: MusicInputDTO = {
                 name: req.body.name,

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ArtistInputDTO} from "../model/Artist";
 import { ArtistBusiness } from "../business/ArtistBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
-import { UserDatabase } from "../data/UserDatabase";
+import { ArtistDatabase } from "../data/ArtistDatabase";
 import {Authenticator} from "../services/Authenticator";
 
 export class ArtistController {
@@ -38,10 +38,9 @@ export class ArtistController {
             const authenticator = new Authenticator();
             const authenticationData = authenticator.getData(token);
 
-            const userDb = new UserDatabase();
-            const user = await userDb.getById(authenticationData.id);
-            console.log(user.role)
-            if (user.role !== 'admin' && user.role !== 'ADMIN'){
+            const artistDb = new ArtistDatabase();
+            const artist = await artistDb.getArtistById(authenticationData.id);
+            if (artist.role !== 'admin' && artist.role !== 'ADMIN'){
                 throw new Error("Only admins can approve artists");
             }
 
@@ -74,6 +73,46 @@ export class ArtistController {
             await BaseDatabase.destroyConnection();
             res.status(400).send({ error: error.message });
         }
+    }
+
+    async getOwnArtistProfile(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+
+            const artistDb = new ArtistDatabase();
+            const artist = await artistDb.getArtistById(authenticationData.id)
+            
+            await BaseDatabase.destroyConnection();
+            res.status(200).send({ result: artist });
+
+        } catch (error) {
+            await BaseDatabase.destroyConnection();
+            res.status(400).send({ error: error.message });
+        }
+
+    }
+
+    async getArtistById(req: Request, res: Response) {
+        try {
+            const token = req.headers.authorization as string;
+
+            const authenticator = new Authenticator();
+            const authenticationData = authenticator.getData(token);
+
+            const artistDb = new ArtistDatabase();
+            const artist = await artistDb.getArtistById(req.params.id)
+            
+            await BaseDatabase.destroyConnection();
+            res.status(200).send({ result: artist });
+
+        } catch (error) {
+            await BaseDatabase.destroyConnection();
+            res.status(400).send({ error: error.message });
+        }
+
     }
 
 }
