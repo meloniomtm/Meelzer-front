@@ -15,6 +15,8 @@ export class SearchBusiness {
         const genre = await genreDatabase.getAllGenre();
         const musicDatabase = new ArtistDatabase();
         const music = await musicDatabase.getAllArtists();
+        const albumDatabase = new ArtistDatabase();
+        const album = await albumDatabase.getAllArtists();
         let result: any = []
         genre.map((item: any) => {
             result.push({ id: item.id, name: item.name, image: item.image, type:'genre'})
@@ -22,6 +24,11 @@ export class SearchBusiness {
         artist.map((item: any) => {
             if (item.approved == 1) {
                 result.push({id: item.id, name: item.name, image: item.image, type:'artist'})
+            }
+        })
+        album.map((item: any) => {
+            if (item.published == 1) {
+                result.push({id: item.id, name: item.name, image: item.image, type:'album'})
             }
         })
         return result;

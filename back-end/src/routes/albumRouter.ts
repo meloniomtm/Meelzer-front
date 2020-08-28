@@ -6,4 +6,4 @@ export const albumRouter = express.Router();
 const albumController = new AlbumController();
 
 albumRouter.post("/createAlbum", albumController.createAlbum);
-albumRouter.get("/:day", albumController.getAllAlbunsByArtist);
+albumRouter.get("", albumController.getAllAlbuns);

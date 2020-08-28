@@ -7,19 +7,21 @@ export class MusicDatabase extends BaseDatabase {
 
   public async createMusic(
     id: string,
-    author: string,
     name: string,
     releasedIn: Date,
-    id_album: string|null|undefined
+    id_album: string|null|undefined,
+    id_artist: string,
+    name_artist: string
   ): Promise<void> {
     try {
       await this.getConnection()
         .insert({
           id,
-          author,
           name,
           releasedIn,
-          id_album
+          id_album,
+          id_artist,
+          name_artist
         })
         .into(MusicDatabase.TABLE_NAME);
     } catch (error) {
@@ -27,13 +29,12 @@ export class MusicDatabase extends BaseDatabase {
     }
   }
 
-  public async getMusicByName(name: string): Promise<Music> {
+  public getAllMusics = async (): Promise<Music[]> => {
     const result = await this.getConnection()
-      .select("*")
-      .from(MusicDatabase.TABLE_NAME)
-      .where({ name });
-    return result[0];
-  }
+        .select("*")
+        .from(MusicDatabase.TABLE_NAME)
+    return result;
+}
 
   public async getMusicById(id: string): Promise<Music> {
     const result = await this.getConnection()
@@ -51,11 +52,12 @@ export class MusicDatabase extends BaseDatabase {
     return result[0];
   }
 
-  public async getMusicByAlbum(album: string): Promise<Music[]> {
+  public async getMusicByMusic(music: string): Promise<Music[]> {
     const result = await this.getConnection()
       .select("*")
       .from(MusicDatabase.TABLE_NAME)
-      .where({ album });
+      .where({ music });
     return result[0];
   }
+
 }

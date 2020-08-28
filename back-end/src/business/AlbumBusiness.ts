@@ -8,7 +8,7 @@ export class AlbumBusiness {
 
     async createAlbum(album: AlbumInputDTO) {
         const id = this.idGenerator.generate();
-        await this.albumDatabase.createAlbum(id, album.id_artist, album.name, album.published, album.genre, new Date(Date.now()));
+        await this.albumDatabase.createAlbum(id, album.id_artist, album.name, album.published, album.genre, album.releasedIn);
         return id;
     };
 
@@ -18,9 +18,9 @@ export class AlbumBusiness {
         return album;
     }
 
-    async getAllAlbunsByArtist(input: string) {
+    async getAllAlbuns() {
         const albumDatabase = new AlbumDatabase();
-        const album = await albumDatabase.getAllAlbunsByArtist(input);
+        const album = await albumDatabase.getAllAlbuns();
         return album;
     }
 }

@@ -65,5 +65,6 @@ export interface AlbumInputDTO {
     id_artist: string,
     name: string,
     published: boolean,
-    genre: string
+    genre: string,
+    releasedIn: Date
 }

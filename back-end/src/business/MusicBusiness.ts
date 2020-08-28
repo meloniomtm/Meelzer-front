@@ -8,13 +8,13 @@ export class MusicBusiness {
 
     async createMusic(music: MusicInputDTO) {
         const id = this.idGenerator.generate();
-        await this.musicDatabase.createMusic(id, music.author, music.name, new Date(Date.now()), music.id_album);
+        await this.musicDatabase.createMusic(id, music.name, music.releasedIn, music.id_album, music.id_artist, music.name_artist);
         return id;
     };
 
-    async getMusicByName(input: string) {
+    async getAllMusics() {
         const musicDatabase = new MusicDatabase();
-        const music = await musicDatabase.getMusicByName(input);
+        const music = await musicDatabase.getAllMusics();
         return music;
     }
 
@@ -30,9 +30,9 @@ export class MusicBusiness {
         return music;
     }
 
-    async getMusicByAlbum(input: string) {
+    async getMusicByMusic(input: string) {
         const musicDatabase = new MusicDatabase();
-        const music = await musicDatabase.getMusicByAlbum(input);
+        const music = await musicDatabase.getMusicByMusic(input);
         return music;
     }
 }
