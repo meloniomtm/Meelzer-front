@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 
 import FormUser from '../../components/FormUser'
-import FormGenre from '../../components/FormGenre'
 import { useForm } from '../../hooks/useForm'
+import { url } from '../../reducers/meelzerReducer'
 
 import {
     ThemeProvider,
@@ -14,19 +14,18 @@ import {
 } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import { withStyles } from '@material-ui/core/styles';
-import { amber } from '@material-ui/core/colors';
 
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
-import CardArtist from '../../components/CardArtist'
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import '../../App.css'
-
 
 const Container = styled.div`
 width: 100%;
@@ -45,8 +44,8 @@ width: 100%;
 max-width: 100vw;
 height: 90vh;
 display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
+flex-direction: column;
+justify-content: flex-start;
 padding: 5vw;
 overflow: scroll;
 overflow-x: hidden;
@@ -56,7 +55,6 @@ const Title = styled.p`
 width: 100%;
 font-size: 2em;
 font-family: 'MuseoModerno', cursive;
-margin-bottom: 5vw;
 `
 
 const FormContainer = styled.div`
@@ -72,17 +70,39 @@ const Form = styled.form`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    grid-row: 2/3;
     @media(min-width: 800px) {
     width:50%;
   }
 `
-const SignUpButton = styled(Button)`
+const CreateMusic = styled(Button)`
 &&{
     background-color: #ffbd4a;
     color: black;
     border-radius: 35px;
 }
+`
+
+const DatePicker = styled.input`
+background-color: #e8e8e8;
+color: #6a6a6a;
+width: 80%;
+height: 27%;
+border: none;
+padding-top: 6vw;
+padding-left: 3vw;
+padding-right: 3vw;
+padding-bottom: 4vw;
+
+`
+
+const Label = styled.label`
+    z-index: 1;
+    color: #6a6a6a;
+    position: relative;
+    left: -46px;
+    bottom: -40px;
+    margin-top: -20px;
+
 `
 
 const useStyles = makeStyles((theme) => ({
@@ -106,6 +126,14 @@ const useStyles = makeStyles((theme) => ({
         zIndex: "modal",
 
     },
+    formControl: {
+        margin: theme.spacing(1),
+        width: '80%',
+        backgroundColor: "#ffffff",
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
 }));
 
 const theme = createMuiTheme({
@@ -119,19 +147,18 @@ const theme = createMuiTheme({
     },
 });
 
+
 const Release = () => {
     const classes = useStyles();
-    const { form, onChange } = useForm({ nameInput: '', nicknameInput: '', emailInput: '', passwordInput: '' })
+    const history = useHistory()
+    const [genres, setGenres] = useState([])
+    const { form, onChange } = useForm({ nameMusicInput: '', nameAlbumInput: '', genreInput: '', releasedInMusicInput: "2017-05-24", releasedInAlbumInput: "2017-05-24" })
     const token = localStorage.getItem('token')
     const handleInputChange = event => {
         const { name, value } = event.target;
         onChange(name, value);
     };
-    const history = useHistory()
-    const [welcomePhrase, setWelcomePhrase] = useState(0)
-    const [artists, setArtists] = useState([])
 
-    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
 
     const navType = () => {
         let accountType = localStorage.getItem('accountType')
@@ -147,22 +174,21 @@ const Release = () => {
         }
     }
 
-    const getArtists = () => {
-        axios.get(`${urlBack}/artist/getAllArtists`, {
+    const getGenres = () => {
+        axios.get(`${url}/genre/getAllGenre`, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            setArtists(response.data.artist)
-            console.log(response)
+            setGenres(response.data.genre)
         }).catch(error => {
-            try {
-                if (error.response.data.error === "jwt expired") {
-                    alert("Sua sessão expirou!")
-                    goToLogin()
-                }
-            } catch{ }
+            console.log(error)
+            console.log(error.response)
+            if (error.response.data.error === "jwt expired") {
+                alert("Sua sessão expirou!")
+                goToLogin()
+            }
         })
     }
 
@@ -170,7 +196,7 @@ const Release = () => {
         if (!localStorage.getItem('token') && !localStorage.getItem('accountType')) {
             goToLogin()
         }
-        getArtists()
+        getGenres()
         window.scrollTo(0, 1);
     }, []);
 
@@ -178,13 +204,129 @@ const Release = () => {
         history.push("/login")
     }
 
+    const createMusic = event => {
+        event.preventDefault();
+        const body = {
+            name: form.nameMusicInput,
+            releasedIn: form.releasedInMusicInput
+        }
+        console.log(body)
+        axios
+            .post(
+                `${url}/music/createMusic`,
+                body,
+                {
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            .then((response) => {
+                alert(response.data)
+            })
+            .catch((error) => {
+                alert(error.response.data)
+            })
+    }
+
+    const createAlbum = event => {
+        event.preventDefault();
+        const body = {
+            name: form.nameMusicInput,
+            genre: form.genreInput,
+            releasedIn: form.releasedInMusicInput
+        }
+        console.log(body)
+        axios
+            .post(
+                `${url}/album/createAlbum`,
+                body,
+                {
+                    headers: {
+                        Authorization: token,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            .then((response) => {
+                alert(response.data)
+            })
+            .catch((error) => {
+                alert(error.response.data)
+            })
+    }
+
     return (
         <Container>
             <MainContainer>
                 <Title>Lançar música</Title>
-                <FormUser></FormUser>
+                <Form autocomplete="false" className={classes.root} noValidate>
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className={classes.margin}
+                            label="Nome"
+                            variant="filled"
+                            name="nameMusicInput"
+                            value={form.nameMusicInput}
+                            onChange={handleInputChange}
+                        />
+                        <Label>Data de Lançamento:</Label>
+                        <DatePicker
+                            type="date"
+                            name="releasedInMusicInput"
+                            value={form.releasedInMusicInput}
+                            onChange={handleInputChange}
+                        />
+                    </ThemeProvider>
+                    <CreateMusic
+                        className={classes.margin}
+                        variant="contained"
+                        color="primary"
+                        onClick={createMusic}>
+                        Criar
+                    </CreateMusic>
+                </Form>
                 <Title>Lançar Álbum</Title>
-                <FormGenre></FormGenre>
+                <Form autocomplete="false" className={classes.root} noValidate>
+                    <ThemeProvider theme={theme}>
+                        <TextField
+                            className={classes.margin}
+                            label="Nome"
+                            variant="filled"
+                            name="nameAlbumInput"
+                            value={form.nameAlbumInput}
+                            onChange={handleInputChange}
+                        />
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel>Gênero</InputLabel>
+                            <Select
+                                name="genreInput"
+                                value={form.genreInput}
+                                onChange={handleInputChange}>
+                                {genres.map(item => (
+                                    <MenuItem key={item.id} value={item.id}>
+                                        <em>{item.name}</em>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Label>Data de Lançamento:</Label>
+                        <DatePicker
+                            type="date"
+                            name="releasedInAlbumInput"
+                            value={form.releasedInAlbumInput}
+                            onChange={handleInputChange}
+                        />
+                    </ThemeProvider>
+                    <CreateMusic
+                        className={classes.margin}
+                        variant="contained"
+                        color="primary"
+                        onClick={createAlbum}>
+                        Criar
+                    </CreateMusic>
+                </Form>
             </MainContainer>
             {navType()}
         </Container>

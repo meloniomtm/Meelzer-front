@@ -6,6 +6,7 @@ import axios from 'axios';
 import '../../App.css'
 
 import { useForm } from '../../hooks/useForm'
+import {url} from '../../reducers/meelzerReducer'
 
 import Meelzer_linha from '../../images/Meelzer_logo_texto_amarelo.png';
 
@@ -161,7 +162,6 @@ const SwitchContainer = styled.div`
 
 const SignUp = () => {
     const classes = useStyles();
-    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
     const history = useHistory();
     const { form, onChange } = useForm({ nameInput: '', nicknameInput: '', emailInput: '', passwordInput: '' })
     const token = localStorage.getItem('token')
@@ -205,7 +205,7 @@ const SignUp = () => {
         }
         axios
             .post(
-                `${urlBack}/${userOrArtist}/signup`,
+                `${url}/${userOrArtist}/signup`,
                 body,
                 {
                     headers: {

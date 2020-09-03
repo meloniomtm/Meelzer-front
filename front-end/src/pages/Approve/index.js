@@ -6,7 +6,8 @@ import axios from 'axios';
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
-import CardArtist from '../../components/CardArtistApprove'
+import CardArtistApprove from '../../components/CardArtistApprove'
+import { url } from '../../reducers/meelzerReducer'
 
 import '../../App.css'
 
@@ -48,8 +49,7 @@ const Approve = () => {
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
     const [artists, setArtists] = useState([])
-
-    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
+    const [showArtists, setShowArtists] = useState(false)
 
     const navType = () => {
         let accountType = localStorage.getItem('accountType')
@@ -66,14 +66,18 @@ const Approve = () => {
     }
 
     const getArtists = () => {
-        axios.get(`${urlBack}/artist/getAllArtists`, {
+        axios.get(`${url}/artist/getAllArtists`, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
             setArtists(response.data.artist)
-            console.log(response)
+            response.data.artist.map(item =>{
+                if(!item.approved){
+                    setShowArtists(true)
+                }
+            })
         }).catch(error => {
             try {
                 if (error.response.data.error === "jwt expired") {
@@ -100,11 +104,14 @@ const Approve = () => {
         <Container>
             <MainContainer>
                 <Title>Aprovação de artistas</Title>
-                {artists.map(item => {
-                    if (!item.approved) {
-                        return (<CardArtist key={item.id} artist={item}></CardArtist>)
-                    }
-                })}
+                {showArtists ? (<>
+                    {artists.map(item => {
+                        if (!item.approved) {
+                            return (<CardArtistApprove key={item.id} artist={item}></CardArtistApprove>)
+                        }
+                    })}
+                </>) : (<p>Nenhum artista a ser aprovado.</p>)}
+
             </MainContainer>
             {navType()}
         </Container>

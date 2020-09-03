@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import '../App.css'
+import { useHistory } from "react-router-dom";
+
 const Container = styled.div`
 background: url(${props => props.background});
 text-shadow: 0 0 20px black, 0 0 20px black;
@@ -41,12 +43,17 @@ font-size: 1.5em;
 text-shadow: 0 0 5px black;
 `
 const CardGenre = (props) => {
-    return (
-        <>
-            <Container background={props.genre.image}>
-                <Title>{props.genre.name}</Title>
-            </Container>
-        </>
-    )
+  const goToGenre = (id) => {
+    history.push(`genre/${id}`)
+  }
+  const history = useHistory()
+
+  return (
+    <>
+      <Container onClick={() => { goToGenre(props.genre.id) }} background={props.genre.image}>
+        <Title>{props.genre.name}</Title>
+      </Container>
+    </>
+  )
 }
 export default CardGenre;
