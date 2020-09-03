@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
-import CardGenre from '../../components/CardGenre'
-import {url} from '../../reducers/meelzerReducer'
+import CardArtist from '../../components/CardArtist'
+import { url } from '../../reducers/meelzerReducer'
 
 import '../../App.css'
 
@@ -29,42 +30,31 @@ width: 100%;
 max-width: 100vw;
 height: 90vh;
 display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 padding: 5vw;
 overflow: scroll;
 overflow-x: hidden;
 `
 
-const Welcome = styled.p`
+const HeaderArtist = styled.div`
 width: 100%;
-font-size: 2em;
-font-family: 'MuseoModerno', cursive;
-margin-bottom: 5vw;
+height: fit-content;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
 `
 
+const Email = styled.h3``
 
-const Home = () => {
+const Artist = () => {
     const token = localStorage.getItem('token')
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
-    const [genres, setGenres] = useState([])
-
-    const welcomeFunction = () => {
-        const time = new Date(Date.now()).getHours()
-        if (time >= 0 && time <= 3) {
-            setWelcomePhrase("Boa Noite!")
-        }
-        if (time >= 4 && time <= 12) {
-            setWelcomePhrase("Bom Dia!")
-        }
-        if (time >= 13 && time <= 17) {
-            setWelcomePhrase("Boa Tarde!")
-        }
-        if (time >= 18 && time < 25) {
-            setWelcomePhrase("Boa Noite!")
-        }
-    }
+    const [artist, setArtist] = useState({})
+    const params = useParams()
 
     const navType = () => {
         let accountType = localStorage.getItem('accountType')
@@ -80,31 +70,31 @@ const Home = () => {
         }
     }
 
-    const getGenres = () => {
-        axios.get(`${url}/genre/getAllGenre`, {
+    const getArtist = () => {
+        axios.get(`${url}/artist/${params.id}`, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            setGenres(response.data.genre)
+            setArtist(response.data.result)
         }).catch(error => {
-            console.log(error)
-            console.log(error.response)
-            if(error.response.data.error === "jwt expired"){
-                alert("Sua sessão expirou!")
-                goToLogin()
-            }
+            try {
+                if (error.response.data.error === "jwt expired") {
+                    alert("Sua sessão expirou!")
+                    goToLogin()
+                }
+            } catch{ console.log(error.response) }
+
         })
     }
 
     useEffect(() => {
-        if (!localStorage.getItem('token') && !localStorage.getItem('accountType')){
+        if (!localStorage.getItem('token') && !localStorage.getItem('accountType')) {
             goToLogin()
         }
-        welcomeFunction()
-        getGenres()
-        window.scrollTo(0,1);
+        getArtist()
+        window.scrollTo(0, 1);
     }, []);
 
     const goToLogin = () => {
@@ -113,15 +103,14 @@ const Home = () => {
 
     return (
         <Container>
-
             <MainContainer>
-                <Welcome>{welcomePhrase}</Welcome>
-                    {genres.map(item => {
-                        return (<CardGenre key={item.name} genre={item} ></CardGenre>)
-                    })}
+                <HeaderArtist>
+                    <CardArtist artist={artist} />
+                </HeaderArtist>
+                <Email>{artist.email}</Email>
             </MainContainer>
             {navType()}
         </Container>
     )
 }
-export default Home
+export default Artist

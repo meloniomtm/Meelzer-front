@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 
+import {url} from '../reducers/meelzerReducer'
 import {getArtists} from '../pages/Approve'
 import '../App.css'
 import CheckIcon from '@material-ui/icons/Check';
@@ -19,6 +20,7 @@ margin-bottom: 5vw;
 padding: 5vw;
 box-shadow: 0px 0px 9px 1px #0000006b;
 font-family: 'MuseoModerno', cursive;
+color: ${({ approved }) => (approved ? 'green' : 'white')};
 @media(min-width: 500px) {
     width:25vw;
     height:25vw;
@@ -42,6 +44,7 @@ object-position: center;
 const Title = styled.h3`
 font-size: 1.5em;
 text-shadow: 0 0 5px black;
+color: white;
 `
 
 
@@ -49,18 +52,17 @@ text-shadow: 0 0 5px black;
 const CardArtistApprove = (props) => {
     const history = useHistory()
     const token = localStorage.getItem('token')
-    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
-
+    const [color, setColor] = useState(false)
     const approveArtist = (id) => {
         console.log(id)
         console.log(token)
-        axios.put(`${urlBack}/artist/approve/${id}`, null, {
+        axios.put(`${url}/artist/approve/${id}`, null, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            console.log(response)
+            setColor(true)
         }).catch(error => {
             try {
                 if (error.response.data.error === "jwt expired") {
@@ -77,7 +79,7 @@ const CardArtistApprove = (props) => {
 
     return (
         <>
-            <Container background={props.artist.image}>
+            <Container approved={color} background={props.artist.image}>
                 <Title>{props.artist.name}</Title>
                 <CheckIcon onClick={() => approveArtist(props.artist.id)}></CheckIcon>
             </Container>

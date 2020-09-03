@@ -6,7 +6,8 @@ import axios from 'axios';
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
 import BottomNavigationAdmin from '../../components/BottomNavigationAdmin'
-import CardGenre from '../../components/CardGenre'
+import CardArtist from '../../components/CardArtist'
+import {url} from '../../reducers/meelzerReducer'
 
 import '../../App.css'
 
@@ -28,43 +29,30 @@ width: 100%;
 max-width: 100vw;
 height: 90vh;
 display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 padding: 5vw;
 overflow: scroll;
 overflow-x: hidden;
 `
 
-const Welcome = styled.p`
+const HeaderProfile = styled.div`
 width: 100%;
-font-size: 2em;
-font-family: 'MuseoModerno', cursive;
-margin-bottom: 5vw;
+height: fit-content;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+align-items: center;
 `
 
+const Email = styled.h3``
 
 const Profile = () => {
     const token = localStorage.getItem('token')
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
-    const [genres, setGenres] = useState([])
-
-    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
-    const welcomeFunction = () => {
-        const time = new Date(Date.now()).getHours()
-        if (time >= 0 && time <= 3) {
-            setWelcomePhrase("Boa Noite!")
-        }
-        if (time >= 4 && time <= 12) {
-            setWelcomePhrase("Bom Dia!")
-        }
-        if (time >= 13 && time <= 17) {
-            setWelcomePhrase("Boa Tarde!")
-        }
-        if (time >= 18 && time < 25) {
-            setWelcomePhrase("Boa Noite!")
-        }
-    }
+    const [profile, setProfile] = useState({})
 
     const navType = () => {
         let accountType = localStorage.getItem('accountType')
@@ -80,30 +68,61 @@ const Profile = () => {
         }
     }
 
-    const getGenres = () => {
-        axios.get(`${urlBack}/genre/getAllGenre`, {
-            headers: {
-                Authorization: token,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            setGenres(response.data.genre)
-        }).catch(error => {
-            if(error.response.data.error === "jwt expired"){
-                alert("Sua sessão expirou!")
-                goToLogin()
-            }
-            console.log(error.response.data.error)
-        })
+    const getProfile = () => {
+        let accountType = localStorage.getItem('accountType')
+        accountType = accountType.toUpperCase()
+        if (accountType === "FREE" || accountType === "PAYING" || accountType === "ADMIN") {
+            console.log("entrou no user")
+
+            axios.get(`${url}/user/profile`, {
+                headers: {
+                    Authorization: token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                setProfile(response.data.result)
+                console.log(response.data.result)
+            }).catch(error => {
+                try {
+                    if (error.response.data.error === "jwt expired") {
+                        alert("Sua sessão expirou!")
+                        goToLogin()
+                    }
+                } catch{ console.log(error.response) }
+
+            })
+        }
+        if (accountType === "ARTIST") {
+            console.log("entrou no artist")
+
+            axios.get(`${url}/artist/profile`, {
+                headers: {
+                    Authorization: token,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                setProfile(response.data.result)
+                console.log(response.data.result)
+            }).catch(error => {
+                try {
+                    if (error.response.data.error === "jwt expired") {
+                        alert("Sua sessão expirou!")
+                        goToLogin()
+                    }
+                } catch{ console.log(error.response) }
+
+            })
+        }
     }
 
+
+
     useEffect(() => {
-        if (!localStorage.getItem('token') && !localStorage.getItem('accountType')){
+        if (!localStorage.getItem('token') && !localStorage.getItem('accountType')) {
             goToLogin()
         }
-        welcomeFunction()
-        getGenres()
-        window.scrollTo(0,1);
+        getProfile()
+        window.scrollTo(0, 1);
     }, []);
 
     const goToLogin = () => {
@@ -112,12 +131,11 @@ const Profile = () => {
 
     return (
         <Container>
-
             <MainContainer>
-                <Welcome>{welcomePhrase}</Welcome>
-                    {genres.map(item => {
-                        return (<CardGenre key={item.name} genre={item} ></CardGenre>)
-                    })}
+                <HeaderProfile>
+                    <CardArtist artist={profile} />
+                </HeaderProfile>
+                <Email>{profile.email}</Email>
             </MainContainer>
             {navType()}
         </Container>

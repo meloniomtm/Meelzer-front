@@ -6,6 +6,7 @@ import axios from 'axios';
 import FormUser from '../../components/FormUser'
 import FormGenre from '../../components/FormGenre'
 import { useForm } from '../../hooks/useForm'
+import { url } from '../../reducers/meelzerReducer'
 
 import {
     ThemeProvider,
@@ -19,6 +20,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import { amber } from '@material-ui/core/colors';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import BottomNavigationUser from '../../components/BottomNavigationUser'
 import BottomNavigationArtist from '../../components/BottomNavigationArtist'
@@ -45,9 +47,8 @@ width: 100%;
 max-width: 100vw;
 height: 90vh;
 display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-padding: 5vw;
+flex-direction: column;
+justify-content: start;
 overflow: scroll;
 overflow-x: hidden;
 `
@@ -56,26 +57,36 @@ const Title = styled.p`
 width: 100%;
 font-size: 2em;
 font-family: 'MuseoModerno', cursive;
-margin-bottom: 5vw;
+height: fit-content;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 5vw;
 `
 
-const FormContainer = styled.div`
+const FormContainerAdmin = styled.div`
     width: 100%;
-    display:flex;
+    height: ${({ expand }) => (expand ? '55vh' : '0')};
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #262626;
+    transition: 1s;
+    padding-top: ${({ expand }) => (expand ? '5vw' : '0')};
+    padding-bottom: ${({ expand }) => (expand ? '5vw' : '0')};
+    content-visibility: auto;
 `
-const Form = styled.form`
+const FormContainerGenre = styled.form`
     width: 100%;
-    display:flex;
+    height: ${({ expand }) => (expand ? '55vh' : '0')};
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    grid-row: 2/3;
-    @media(min-width: 800px) {
-    width:50%;
-  }
+    background-color: #262626;
+    transition: 1s;
+    padding-top: ${({ expand }) => (expand ? '5vw' : '0')};
+    padding-bottom: ${({ expand }) => (expand ? '5vw' : '0')};
+    content-visibility: auto;
 `
 const SignUpButton = styled(Button)`
 &&{
@@ -130,8 +141,8 @@ const Add = () => {
     const history = useHistory()
     const [welcomePhrase, setWelcomePhrase] = useState(0)
     const [artists, setArtists] = useState([])
-
-    let urlBack = "https://l3zhapgw20.execute-api.us-east-1.amazonaws.com/dev"
+    const [expandAdmin, setExpandAdmin] = useState(false)
+    const [expandGenre, setExpandGenre] = useState(false)
 
     const navType = () => {
         let accountType = localStorage.getItem('accountType')
@@ -148,7 +159,7 @@ const Add = () => {
     }
 
     const getArtists = () => {
-        axios.get(`${urlBack}/artist/getAllArtists`, {
+        axios.get(`${url}/artist/getAllArtists`, {
             headers: {
                 Authorization: token,
                 'Content-Type': 'application/json'
@@ -178,13 +189,26 @@ const Add = () => {
         history.push("/login")
     }
 
+    const expandMoreAdmin = () => {
+        setExpandAdmin(!expandAdmin)
+        console.log('click')
+    }
+
+    const expandMoreGenre = () => {
+        setExpandGenre(!expandGenre)
+    }
+
     return (
         <Container>
             <MainContainer>
-                <Title>Adicionar administradores</Title>
-                <FormUser></FormUser>
-                <Title>Adicionar gêneros</Title>
-                <FormGenre></FormGenre>
+                <Title onClick={expandMoreAdmin}>Adicionar administradores <ExpandMoreIcon /></Title>
+                <FormContainerAdmin expand={expandAdmin}>
+                <FormUser />
+                </FormContainerAdmin>
+                <Title onClick={expandMoreGenre}>Adicionar gêneros <ExpandMoreIcon /> </Title>
+                <FormContainerGenre expand={expandGenre}>
+                    <FormGenre />
+                </FormContainerGenre>
             </MainContainer>
             {navType()}
         </Container>

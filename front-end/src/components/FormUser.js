@@ -54,26 +54,13 @@ const theme = createMuiTheme({
     },
 });
 
-const YellowSwitch = withStyles({
-    switchBase: {
-        color: amber[0],
-        '&$checked': {
-            color: amber[300],
-        },
-        '&$checked + $track': {
-            backgroundColor: amber[300],
-        },
-    },
-    checked: {},
-    track: {},
-})(Switch);
-
 const FormContainer = styled.div`
     width: 100%;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: 0.7s;
 `
 const Form = styled.form`
     width: 100%;
@@ -82,7 +69,7 @@ const Form = styled.form`
     justify-content: center;
     align-items: center;
     grid-row: 2/3;
-    margin-top: 5vh;
+    transition: 0.7s;
     @media(min-width: 800px) {
     width:50%;
   }

@@ -64,7 +64,6 @@ const Form = styled.form`
     justify-content: center;
     align-items: center;
     grid-row: 2/3;
-    margin-top: 5vh;
     @media(min-width: 800px) {
     width:50%;
   }

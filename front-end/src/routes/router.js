@@ -9,7 +9,8 @@ import Profile from '../pages/Profile'
 import Add from '../pages/Add'
 import Search from '../pages/Search'
 import Release from '../pages/Release'
-
+import Artist from '../pages/Artist'
+import Genre from '../pages/Genre'
 const Router = () => {
     const [state, dispatch] = useReducer()
     return (
@@ -41,6 +42,12 @@ const Router = () => {
                 </Route>
                 <Route exact path='/release'>
                     <Release />
+                </Route>
+                <Route exact path='/artist/:id'>
+                    <Artist />
+                </Route>
+                <Route exact path='/genre/:id'>
+                    <Genre />
                 </Route>
             </Switch>
         </BrowserRouter>

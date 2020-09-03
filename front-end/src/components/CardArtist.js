@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import '../App.css'
+import { useHistory } from "react-router-dom";
+
 const Container = styled.div`
 display:flex;
 flex-direction: column;
@@ -45,13 +47,18 @@ font-size: 1.5em;
 text-shadow: 0 0 5px black;
 `
 const CardArtist = (props) => {
-    return (
-        <>
-            <Container >
-                <Image src={props.artist.image ? (props.artist.image) : ('https://unsplash.com/photos/ojVMh1QTVGY')}></Image>
-                <Title>{props.artist.name}</Title>
-            </Container>
-        </>
-    )
+  const history = useHistory()
+
+  const goToArtist = (id) => {
+    history.push(`artist/${id}`)
+  }
+  return (
+    <>
+      <Container onClick={() => { goToArtist(props.artist.id) }}>
+        <Image src={props.artist.image ? (props.artist.image) : ('https://images.unsplash.com/photo-1453090927415-5f45085b65c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1462&q=80')}></Image>
+        <Title>{props.artist.name}</Title>
+      </Container>
+    </>
+  )
 }
 export default CardArtist;

@@ -2,6 +2,8 @@ export const initialState = {
     search: null
 }
 
+export const url = "https://meelzer.herokuapp.com"
+
 export const meelzerReducer = (state, action) => {
     switch (action.type) {
         case "SET_FILTER":
