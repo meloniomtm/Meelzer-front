@@ -156,7 +156,7 @@ const SignUpButton = styled(Button)`
 const Login = () => {
     const classes = useStyles();
     const history = useHistory();
-    const { form, onChange } = useForm({ emailInput: 'admin', InputPassword: 'admin' })
+    const { form, onChange } = useForm({ emailInput: '', InputPassword: '' })
     const token = localStorage.getItem('token')
     const handleInputChange = event => {
         const { name, value } = event.target;
