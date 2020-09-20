@@ -24,6 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import '../../App.css'
 
@@ -37,6 +38,7 @@ background-color: #000000ad;
 color: white;
 overflow: hidden;
 `
+
 const MainContainer = styled.div`
 grid-row: 1/2;
 background-color: #00000047;
@@ -45,13 +47,40 @@ max-width: 100vw;
 height: 90vh;
 display: flex;
 flex-direction: column;
-justify-content: flex-start;
-padding: 5vw;
+justify-content: start;
 overflow: scroll;
 overflow-x: hidden;
 `
 
+const FormContainerMusic = styled.div`
+    width: 100%;
+    height: ${({ expand }) => (expand ? 'fit-content' : '0')};
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #262626;
+    transition: 1s;
+    padding-left: 5vw;
+    padding-top: ${({ expand }) => (expand ? '5vw' : '0')};
+    padding-bottom: ${({ expand }) => (expand ? '5vw' : '0')};
+    content-visibility: auto;
+`
+const FormContainerAlbum = styled.form`
+    width: 100%;
+    padding-left: 5vw;
+    height: ${({ expand }) => (expand ? 'fit-content' : '0')};
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #262626;
+    transition: 1s;
+    padding-top: ${({ expand }) => (expand ? '5vw' : '0')};
+    padding-bottom: ${({ expand }) => (expand ? '5vw' : '0')};
+    content-visibility: auto;
+`
+
 const Title = styled.p`
+padding-left: 5vw;
 width: 100%;
 font-size: 2em;
 font-family: 'MuseoModerno', cursive;
@@ -86,7 +115,7 @@ const DatePicker = styled.input`
 background-color: #e8e8e8;
 color: #6a6a6a;
 width: 80%;
-height: 27%;
+height: 15%;
 border: none;
 padding-top: 6vw;
 padding-left: 3vw;
@@ -96,21 +125,13 @@ padding-bottom: 4vw;
 `
 
 const Label = styled.label`
-    z-index: 1;
-    color: #6a6a6a;
-    position: relative;
-    left: -46px;
-    bottom: -40px;
-    margin-top: -20px;
-
+display:block;
 `
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
             margin: theme.spacing(1),
-
-            backgroundColor: '#ffffff00',
         },
     },
     '&.Mui-focused fieldset': {
@@ -152,7 +173,9 @@ const Release = () => {
     const classes = useStyles();
     const history = useHistory()
     const [genres, setGenres] = useState([])
-    const { form, onChange } = useForm({ nameMusicInput: '', genreMusicInput:'', nameAlbumInput: '', genreInput: '', releasedInMusicInput: "2017-05-24", releasedInAlbumInput: "2017-05-24" })
+    const { form, onChange } = useForm({ nameMusicInput: '', genreMusicInput: '', nameAlbumInput: '', genreInput: '', releasedInMusicInput: "2017-05-24", releasedInAlbumInput: "2017-05-24" })
+    const [expandMusic, setExpandMusic] = useState(false)
+    const [expandAlbum, setExpandAlbum] = useState(false)
     const token = localStorage.getItem('token')
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -258,11 +281,19 @@ const Release = () => {
             })
     }
 
+    const expandMoreMusic = () => {
+        setExpandMusic(!expandMusic)
+    }
+
+    const expandMoreAlbum = () => {
+        setExpandAlbum(!expandAlbum)
+    }
+
     return (
         <Container>
             <MainContainer>
-                <Title>Lançar música</Title>
-                <Form autocomplete="false" className={classes.root} noValidate>
+                <Title onClick={expandMoreMusic}>Lançar música <ExpandMoreIcon /></Title>
+                <FormContainerMusic expand={expandMusic} autocomplete="false" className={classes.root} noValidate>
                     <ThemeProvider theme={theme}>
                         <TextField
                             className={classes.margin}
@@ -300,9 +331,9 @@ const Release = () => {
                         onClick={createMusic}>
                         Criar
                     </CreateMusic>
-                </Form>
-                <Title>Lançar Álbum</Title>
-                <Form autocomplete="false" className={classes.root} noValidate>
+                </FormContainerMusic>
+                <Title onClick={expandMoreAlbum}>Lançar Álbum <ExpandMoreIcon /></Title>
+                <FormContainerAlbum expand={expandAlbum} autocomplete="false" className={classes.root} noValidate>
                     <ThemeProvider theme={theme}>
                         <TextField
                             className={classes.margin}
@@ -340,7 +371,7 @@ const Release = () => {
                         onClick={createAlbum}>
                         Criar
                     </CreateMusic>
-                </Form>
+                </FormContainerAlbum>
             </MainContainer>
             {navType()}
         </Container>

@@ -191,7 +191,6 @@ const Add = () => {
 
     const expandMoreAdmin = () => {
         setExpandAdmin(!expandAdmin)
-        console.log('click')
     }
 
     const expandMoreGenre = () => {

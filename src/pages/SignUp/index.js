@@ -103,7 +103,11 @@ const SignUpButton = styled(Button)`
     background-color: #ffbd4a;
     color: black;
     border-radius: 35px;
+    :hover{
+        background-color: #f3b446;
+    }
 }
+
 `
 const LogoContainer = styled.div`
     display: flex;
