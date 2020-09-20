@@ -152,7 +152,7 @@ const Release = () => {
     const classes = useStyles();
     const history = useHistory()
     const [genres, setGenres] = useState([])
-    const { form, onChange } = useForm({ nameMusicInput: '', nameAlbumInput: '', genreInput: '', releasedInMusicInput: "2017-05-24", releasedInAlbumInput: "2017-05-24" })
+    const { form, onChange } = useForm({ nameMusicInput: '', genreMusicInput:'', nameAlbumInput: '', genreInput: '', releasedInMusicInput: "2017-05-24", releasedInAlbumInput: "2017-05-24" })
     const token = localStorage.getItem('token')
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -208,7 +208,8 @@ const Release = () => {
         event.preventDefault();
         const body = {
             name: form.nameMusicInput,
-            releasedIn: form.releasedInMusicInput
+            releasedIn: form.releasedInMusicInput,
+            genre: form.genreMusicInput
         }
         console.log(body)
         axios
@@ -271,6 +272,19 @@ const Release = () => {
                             value={form.nameMusicInput}
                             onChange={handleInputChange}
                         />
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel>Gênero</InputLabel>
+                            <Select
+                                name="genreMusicInput"
+                                value={form.genreMusicInput}
+                                onChange={handleInputChange}>
+                                {genres.map(item => (
+                                    <MenuItem key={item.name} value={item.name}>
+                                        <em>{item.name}</em>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         <Label>Data de Lançamento:</Label>
                         <DatePicker
                             type="date"
